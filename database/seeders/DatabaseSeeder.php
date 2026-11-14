@@ -33,23 +33,5 @@ class DatabaseSeeder extends Seeder
         Pengguna::create(['nama' => 'Wirya Ayu', 'email' => 'pembeli@ubmager.test', 'password_hash' => Hash::make('password'),
             'status_verifikasi' => 'terverifikasi', 'alamat' => 'Jl. Veteran No. 1, Malang']);
 
-        $sample = [
-            ['Buku Pengantar Ilmu Hukum Edisi Terbaru', 1, 45000, 'Seperti Baru', 'Dekat Gerbang Veteran UB'],
-            ['Jaket Varsity Thrift Vintage - Size L', 2, 120000, 'Mulus 90%', 'Jl. Soekarno-Hatta (Suhat)'],
-            ['Rice Cooker Mini Miyako 0.6L Anak Kos', 3, 95000, 'Seperti Baru', 'Sigura-gura'],
-            ['Kalkulator Scientific Casio fx-991EX', 6, 160000, 'Mulus 90%', 'Fakultas Teknik UB'],
-            ['Meja Lipat Belajar Lesehan Kayu', 7, 35000, 'Pemakaian Wajar', 'Dinoyo'],
-            ['Helm Bogo Retro Coklat Mulus', 12, 85000, 'Mulus 90%', 'Sigura-gura'],
-            ['Modul & Diktat Praktikum Pemrograman Java', 1, 25000, 'Seperti Baru', 'Gedung FILKOM UB'],
-            ['Lampu Meja Belajar LED USB Rechargeable', 7, 40000, 'Mulus 90%', 'Dinoyo'],
-        ];
-        foreach ($sample as [$nama, $kat, $harga, $kondisi, $lokasi]) {
-            Katalog::create([
-                'id_penjual' => $penjual->id_penjual, 'id_kategori' => $kat, 'nama_barang' => $nama,
-                'deskripsi' => 'Barang preloved kondisi terawat, bisa COD di area kampus.',
-                'harga' => $harga, 'kondisi' => $kondisi, 'lokasi' => $lokasi, 'stok' => 1,
-                'status_katalog' => 'aktif', 'status_kelengkapan' => 'lengkap',
-            ]);
-        }
     }
 }
