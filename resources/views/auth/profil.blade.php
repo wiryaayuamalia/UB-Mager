@@ -1,0 +1,20 @@
+@extends('layouts.app')
+@section('title','Profil Mahasiswa')
+@section('content')
+<div class="max-w-4xl mx-auto"><div class="mb-6"><p class="text-xs text-gray-500">Akun Saya / Profil Saya</p><h1 class="text-2xl font-extrabold mt-1">Profil Mahasiswa</h1><p class="text-sm text-gray-500 mt-1">Lengkapi identitas kampus agar transaksi COD lebih aman dan transparan.</p></div>
+<div class="card-polish p-5 md:p-7"><div class="flex items-center gap-4 pb-5 border-b"><div class="w-16 h-16 rounded-full bg-[#f4e9ed] overflow-hidden grid place-items-center text-2xl">@if(auth()->user()->foto)<img src="{{ asset('storage/'.auth()->user()->foto) }}" class="w-full h-full object-cover">@else👤@endif</div><div><h2 class="font-extrabold">{{ auth()->user()->nama }}</h2><p class="text-xs text-gray-500">{{ auth()->user()->fakultas ?: 'Identitas kampus belum dilengkapi' }} · Angkatan {{ auth()->user()->angkatan ?: '—' }}</p><span class="status-pill mt-2">{{ auth()->user()->status_verifikasi==='terverifikasi'?'Mahasiswa Terverifikasi':'Menunggu Verifikasi' }}</span></div></div>
+<form method="POST" action="{{ route('profil.update') }}" enctype="multipart/form-data" class="grid md:grid-cols-2 gap-4 mt-5">@csrf
+<div class="md:col-span-2"><h3 class="font-extrabold">Data Pribadi & Verifikasi Kampus</h3><p class="text-xs text-gray-500 mt-1">Informasi ini membantu membangun kepercayaan saat transaksi antar mahasiswa.</p></div>
+<div><label class="text-sm font-bold">Nama Lengkap *</label><input name="nama" required value="{{ old('nama',auth()->user()->nama) }}" class="w-full mt-1"></div>
+<div><label class="text-sm font-bold">NIM (opsional)</label><input name="nim" value="{{ old('nim',auth()->user()->nim) }}" class="w-full mt-1"></div>
+<div><label class="text-sm font-bold">Fakultas / Identitas Kampus *</label><input name="fakultas" required value="{{ old('fakultas',auth()->user()->fakultas) }}" placeholder="Contoh: Fakultas Ilmu Komputer UB" class="w-full mt-1"></div>
+<div><label class="text-sm font-bold">Program Studi</label><input name="program_studi" value="{{ old('program_studi',auth()->user()->program_studi) }}" class="w-full mt-1"></div>
+<div><label class="text-sm font-bold">Angkatan</label><input name="angkatan" inputmode="numeric" maxlength="4" value="{{ old('angkatan',auth()->user()->angkatan) }}" placeholder="2025" class="w-full mt-1"></div>
+<div><label class="text-sm font-bold">No. WhatsApp Aktif *</label><input name="no_hp" required value="{{ old('no_hp',auth()->user()->no_hp) }}" placeholder="08xxxxxxxxxx" class="w-full mt-1"></div>
+<div class="md:col-span-2"><label class="text-sm font-bold">Alamat Kos / Domisili Malang–Batu *</label><textarea name="alamat" rows="3" required class="w-full mt-1">{{ old('alamat',auth()->user()->alamat) }}</textarea></div>
+<div class="md:col-span-2"><label class="text-sm font-bold">Titik Temu COD Favorit *</label><select name="titik_cod_favorit" required class="w-full mt-1"><option value="">Pilih titik temu publik</option>@foreach(['Gazebo FIA & Filkom UB','Gerbang Veteran UB Coffee','Bundaran Pascasarjana UMM','Kopitiam Jalan Suhat & Borobudur','Kawasan Payung & Alun-Alun Batu','Edutech FILKOM UB (Depan Gedung F)'] as $point)<option @selected(old('titik_cod_favorit',auth()->user()->titik_cod_favorit)===$point)>{{ $point }}</option>@endforeach</select></div>
+<div class="md:col-span-2"><label class="text-sm font-bold">Foto Profil</label><input type="file" name="foto" accept="image/*" class="w-full mt-1"></div>
+<div class="md:col-span-2 border-t pt-4"><h3 class="font-extrabold">Keamanan Akun</h3><p class="text-xs text-gray-500 mt-1">Kosongkan jika tidak ingin mengubah password.</p></div>
+<div><label class="text-sm font-bold">Password Baru</label><input type="password" name="password" class="w-full mt-1"></div><div><label class="text-sm font-bold">Konfirmasi Password</label><input type="password" name="password_confirmation" class="w-full mt-1"></div>
+<div class="md:col-span-2 flex justify-end gap-2 pt-3"><button class="rounded-full bg-maroon text-white px-7 py-3 text-sm font-bold">Simpan Profil</button></div></form></div></div>
+@endsection
