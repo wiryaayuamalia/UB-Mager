@@ -86,7 +86,6 @@
     </div>
 </section>
 
-
 {{-- FILTER DAN PENCARIAN --}}
 <form method="GET"
       action="{{ route('katalog.index') }}"
@@ -169,8 +168,6 @@
     </div>
 </form>
 
-
-
 {{-- KATEGORI CEPAT --}}
 <section class="mb-8">
 
@@ -184,7 +181,6 @@
 
             @php
                 $nama = strtolower($k->nama_kategori);
-
                 $ikon = 'package';
 
                 if (str_contains($nama, 'buku')) {
@@ -307,6 +303,7 @@
                                 <path d="M3 7h18v13H3z"/>
                                 <path d="M3 7l9-4 9 4"/>
                                 <path d="M9 12h6"/>
+
                         @endswitch
 
                     </svg>
@@ -324,7 +321,6 @@
     </div>
 
 </section>
-
 
 {{-- DAFTAR BARANG --}}
 <section id="katalog">
@@ -357,12 +353,30 @@
 
     </div>
 
-
     @if($katalog->isEmpty())
 
-        <div class="bg-white rounded-2xl border p-12 text-center">
+        {{-- TAMPILAN KETIKA BELUM ADA BARANG --}}
+        <div class="bg-white rounded-2xl border border-[#eeeaf0] p-12 text-center">
 
-            <div class="text-5xl mb-4">🛍️</div>
+            {{-- IKON TAS OUTLINE MAROON --}}
+            <div class="flex justify-center mb-5">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="76"
+                     height="76"
+                     viewBox="0 0 64 64"
+                     fill="none"
+                     stroke="#801d43"
+                     stroke-width="2.5"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+
+                    <path d="M12 23h40l-4 32H16l-4-32Z"/>
+                    <path d="M23 25v-7a9 9 0 0 1 18 0v7"/>
+                    <path d="M24 34v8"/>
+                    <path d="M40 34v8"/>
+
+                </svg>
+            </div>
 
             <h3 class="font-bold text-[#650d2b]">
                 Belum Ada Barang Tersedia
@@ -372,6 +386,7 @@
                 Saat ini belum ada barang yang tersedia.
                 Yuk, cek kembali nanti untuk menemukan barang preloved menarik!
             </p>
+
             <a href="{{ route('katalog.index') }}"
                class="inline-block mt-5 text-sm text-[#650d2b] font-bold">
                 Lihat semua barang
@@ -389,43 +404,55 @@
 
                     {{-- FOTO PRODUK --}}
                     <a href="{{ route('katalog.show', $k) }}"
-                      class="block relative h-40 md:h-44 bg-[#f1efed] overflow-hidden">
+                       class="block relative h-40 md:h-44 bg-[#f1efed] overflow-hidden">
 
                         @if($k->foto_utama)
+
                             <img
                                 src="{{ $k->foto_utama }}"
                                 alt="{{ $k->nama_barang }}"
                                 class="w-full h-full object-cover object-center
-                                      group-hover:scale-105 transition duration-300"
+                                       group-hover:scale-105 transition duration-300"
                                 loading="lazy">
+
                         @else
+
                             <div class="w-full h-full flex flex-col items-center justify-center
                                         bg-[#f4f0e9] text-[#8c7d75]">
+
                                 <svg width="42" height="42" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="1.4">
+                                     fill="none" stroke="currentColor" stroke-width="1.4">
+
                                     <rect x="3" y="3" width="18" height="18" rx="2"/>
                                     <circle cx="8.5" cy="8.5" r="1.5"/>
                                     <path d="m21 15-5-5L5 21"/>
+
                                 </svg>
-                                <span class="text-[10px] mt-2">Foto belum tersedia</span>
+
+                                <span class="text-[10px] mt-2">
+                                    Foto belum tersedia
+                                </span>
+
                             </div>
+
                         @endif
 
                         <span class="absolute top-2 left-2 bg-[#d9e8ff]
-                                    text-[#263b5b] rounded-full px-2 py-1
-                                    text-[9px] font-bold">
+                                     text-[#263b5b] rounded-full px-2 py-1
+                                     text-[9px] font-bold">
                             {{ $k->kategori?->nama_kategori ?? 'Lainnya' }}
                         </span>
 
                         @if($k->kondisi)
                             <span class="absolute top-2 left-2 translate-y-7
-                                        bg-[#fff1bd] text-[#66501b]
-                                        rounded-full px-2 py-1 text-[9px] font-bold">
+                                         bg-[#fff1bd] text-[#66501b]
+                                         rounded-full px-2 py-1 text-[9px] font-bold">
                                 {{ $k->kondisi }}
                             </span>
                         @endif
 
                     </a>
+
                     {{-- INFORMASI PRODUK --}}
                     <div class="p-3">
 
@@ -453,7 +480,6 @@
                             </span>
 
                         </div>
-
 
                         {{-- TOMBOL AKSI --}}
                         <div class="flex gap-2 mt-3">
@@ -502,7 +528,6 @@
             @endforeach
 
         </div>
-
 
         {{-- PAGINATION --}}
         <div class="mt-8">
