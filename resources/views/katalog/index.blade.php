@@ -52,8 +52,7 @@
             {{-- TERVERIFIKASI --}}
             <div class="flex min-w-0 items-center gap-3">
                 <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-[#ffe18c] text-[#3e1425]">
-                    <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m12 2 2.2 2.2 3.1-.2.8 3 2.7 1.7-1.1 2.9 1.1 2.9-2.7 1.7-.8 3-3.1-.2L12 20l-2.2-2.2-3.1.2-.8-3-2.7-1.7 1.1-2.9-1.1-2.9 2.7-1.7.8-3 3.1.2L12 2Z"/>
+                    <svg class="h-12 w-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <path d="m9 11 2 2 4-4"/>
                     </svg>
                 </div>
@@ -223,165 +222,354 @@
     </form>
 
 
-    {{-- KATEGORI --}}
-    <section class="mb-8">
-        <h2 class="mb-3 text-[12px] font-extrabold tracking-wide text-[#51414a]">
-            KATEGORI CEPAT PILIHAN MAHASISWA
-        </h2>
+{{-- KATEGORI --}}
+<section class="mb-8" id="kategori-cepat">
+    <h2 class="mb-3 text-[12px] font-extrabold tracking-wide text-[#51414a]">
+        KATEGORI CEPAT PILIHAN MAHASISWA
+    </h2>
 
-        <div class="grid grid-cols-2 gap-2.5 sm:grid-cols-3 md:grid-cols-6">
+    @php
+        $kategoriSlides = $kategori->chunk(12);
+    @endphp
 
-            @foreach($kategori as $k)
-                @php
-                    $nama = strtolower($k->nama_kategori);
-                    $ikon = 'package';
+    <div class="relative">
 
-                    if (str_contains($nama, 'buku')) {
-                        $ikon = 'book';
-                    } elseif (
-                        str_contains($nama, 'kemeja') ||
-                        str_contains($nama, 'batik') ||
-                        str_contains($nama, 'fashion')
-                    ) {
-                        $ikon = 'shirt';
-                    } elseif (
-                        str_contains($nama, 'masak') ||
-                        str_contains($nama, 'dapur')
-                    ) {
-                        $ikon = 'cooking';
-                    } elseif (str_contains($nama, 'laptop')) {
-                        $ikon = 'laptop';
-                    } elseif (str_contains($nama, 'tablet')) {
-                        $ikon = 'tablet';
-                    } elseif (
-                        str_contains($nama, 'tulis') ||
-                        str_contains($nama, 'pensil')
-                    ) {
-                        $ikon = 'pencil';
-                    } elseif (
-                        str_contains($nama, 'meja') ||
-                        str_contains($nama, 'kursi')
-                    ) {
-                        $ikon = 'chair';
-                    } elseif (
-                        str_contains($nama, 'headset') ||
-                        str_contains($nama, 'speaker')
-                    ) {
-                        $ikon = 'headphones';
-                    } elseif (str_contains($nama, 'lab')) {
-                        $ikon = 'flask';
-                    } elseif (
-                        str_contains($nama, 'lemari') ||
-                        str_contains($nama, 'rak')
-                    ) {
-                        $ikon = 'cabinet';
-                    } elseif (
-                        str_contains($nama, 'kasur') ||
-                        str_contains($nama, 'bantal')
-                    ) {
-                        $ikon = 'bed';
-                    } elseif (str_contains($nama, 'olahraga')) {
-                        $ikon = 'dumbbell';
-                    }
-                @endphp
+        {{-- SLIDE KATEGORI --}}
+        <div id="kategori-track" class="overflow-hidden">
+            @foreach($kategoriSlides as $slideIndex => $slide)
+                <div
+                    class="kategori-slide grid grid-cols-2 gap-2.5 sm:grid-cols-3 md:grid-cols-6"
+                    data-slide="{{ $slideIndex }}"
+                    style="{{ $slideIndex === 0 ? '' : 'display:none;' }}"
+                >
+                    @foreach($slide as $k)
+                        @php
+                            $nama = strtolower($k->nama_kategori);
+                            $ikon = 'package';
 
-                <a href="{{ route('katalog.index', array_merge(request()->except('kategori', 'page'), ['kategori' => $k->id_kategori])) }}"
-                   class="category-card group flex h-[88px] flex-col items-center justify-center gap-1.5 rounded-xl border border-[#eeeaf0] bg-white p-2 transition hover:-translate-y-0.5 hover:shadow-md">
+                            if (str_contains($nama, 'buku')) {
+                                $ikon = 'book';
+                            } elseif (
+                                str_contains($nama, 'kemeja') ||
+                                str_contains($nama, 'batik') ||
+                                str_contains($nama, 'fashion')
+                            ) {
+                                $ikon = 'shirt';
+                            } elseif (
+                                str_contains($nama, 'masak') ||
+                                str_contains($nama, 'dapur')
+                            ) {
+                                $ikon = 'cooking';
+                            } elseif (str_contains($nama, 'laptop')) {
+                                $ikon = 'laptop';
+                            } elseif (str_contains($nama, 'tablet')) {
+                                $ikon = 'tablet';
+                            } elseif (
+                                str_contains($nama, 'tulis') ||
+                                str_contains($nama, 'pensil')
+                            ) {
+                                $ikon = 'pencil';
+                            } elseif (
+                                str_contains($nama, 'meja') ||
+                                str_contains($nama, 'kursi')
+                            ) {
+                                $ikon = 'chair';
+                            } elseif (
+                                str_contains($nama, 'headset') ||
+                                str_contains($nama, 'speaker')
+                            ) {
+                                $ikon = 'headphones';
+                            } elseif (str_contains($nama, 'lab')) {
+                                $ikon = 'flask';
+                            } elseif (
+                                str_contains($nama, 'lemari') ||
+                                str_contains($nama, 'rak')
+                            ) {
+                                $ikon = 'cabinet';
+                            } elseif (
+                                str_contains($nama, 'kasur') ||
+                                str_contains($nama, 'bantal')
+                            ) {
+                                $ikon = 'bed';
+                            } elseif (str_contains($nama, 'olahraga')) {
+                                $ikon = 'dumbbell';
+                            } elseif (str_contains($nama, 'hp')) {
+                                $ikon = 'phone';
+                            } elseif (str_contains($nama, 'motor')) {
+                                $ikon = 'motorcycle';
+                            } elseif (
+                                str_contains($nama, 'kamera') ||
+                                str_contains($nama, 'tripod')
+                            ) {
+                                $ikon = 'camera';
+                            } elseif (
+                                str_contains($nama, 'sepatu') ||
+                                str_contains($nama, 'sandal')
+                            ) {
+                                $ikon = 'shoe';
+                            } elseif (
+                                str_contains($nama, 'makeup') ||
+                                str_contains($nama, 'skincare')
+                            ) {
+                                $ikon = 'beauty';
+                            } elseif (str_contains($nama, 'kesehatan')) {
+                                $ikon = 'health';
+                            } elseif (str_contains($nama, 'musik')) {
+                                $ikon = 'music';
+                            } elseif (str_contains($nama, 'aksesori')) {
+                                $ikon = 'accessories';
+                            } elseif (str_contains($nama, 'dekorasi')) {
+                                $ikon = 'decor';
+                            } elseif (
+                                str_contains($nama, 'tas') ||
+                                str_contains($nama, 'ransel')
+                            ) {
+                                $ikon = 'bag';
+                            } elseif (
+                                str_contains($nama, 'game') ||
+                                str_contains($nama, 'konsol')
+                            ) {
+                                $ikon = 'game';
+                            } elseif (
+                                str_contains($nama, 'makanan') ||
+                                str_contains($nama, 'minuman')
+                            ) {
+                                $ikon = 'food';
+                            }
+                        @endphp
 
-                    <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#c6dcff] text-[#30283c] transition group-hover:bg-[#a9caff]">
-                        <svg class="h-[21px] w-[21px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <a
+                            href="{{ route('katalog.index', array_merge(request()->except('kategori', 'page'), ['kategori' => $k->id_kategori])) }}"
+                            class="category-card group flex h-[88px] min-w-0 flex-col items-center justify-center gap-1.5 rounded-xl border border-[#eeeaf0] bg-white p-2 transition hover:-translate-y-0.5 hover:shadow-md"
+                        >
+                            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#c6dcff] text-[#30283c] transition group-hover:bg-[#a9caff]">
+                                <svg
+                                    class="h-[21px] w-[21px]"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    @switch($ikon)
+                                        @case('book')
+                                            <path d="M12 7v14"/>
+                                            <path d="M3 18V5a2 2 0 0 1 2-2h4a3 3 0 0 1 3 3v15a3 3 0 0 0-3-3H5a2 2 0 0 0-2 0Z"/>
+                                            <path d="M21 18V5a2 2 0 0 0-2-2h-4a3 3 0 0 0-3 3v15a3 3 0 0 1 3-3h4a2 2 0 0 1 2 0Z"/>
+                                        @break
 
-                            @switch($ikon)
+                                        @case('shirt')
+                                            <path d="M8 4 10.5 6h3L16 4l5 3-2.5 5-3-1.5V20h-9v-9.5L3.5 12 1 7l7-3Z"/>
+                                        @break
 
-                                @case('book')
-                                    <path d="M12 7v14"/>
-                                    <path d="M3 18V5a2 2 0 0 1 2-2h4a3 3 0 0 1 3 3v15a3 3 0 0 0-3-3H5a2 2 0 0 0-2 0Z"/>
-                                    <path d="M21 18V5a2 2 0 0 0-2-2h-4a3 3 0 0 0-3 3"/>
-                                @break
+                                        @case('cooking')
+                                            <path d="M4 10h16l-1 10H5L4 10Z"/>
+                                            <path d="M7 10V7a5 5 0 0 1 10 0v3"/>
+                                            <path d="M2 10h20"/>
+                                            <path d="M8 4V2M16 4V2"/>
+                                        @break
 
-                                @case('shirt')
-                                    <path d="m16 4 4 3-2 4-3-2v11H9V9l-3 2-2-4 4-3c1 2 2 3 4 3s3-1 4-3Z"/>
-                                @break
+                                        @case('laptop')
+                                            <rect x="4" y="4" width="16" height="13" rx="1"/>
+                                            <path d="M2 20h20l-2-3H4l-2 3Z"/>
+                                        @break
 
-                                @case('cooking')
-                                    <path d="M4 10h16l-1 10H5L4 10Z"/>
-                                    <path d="M7 10V7a5 5 0 0 1 10 0v3"/>
-                                    <path d="M2 10h20"/>
-                                    <path d="M8 4V2M16 4V2"/>
-                                @break
+                                        @case('tablet')
+                                            <rect x="5" y="2" width="14" height="20" rx="2"/>
+                                            <path d="M11 18h2"/>
+                                        @break
 
-                                @case('laptop')
-                                    <rect x="4" y="4" width="16" height="13" rx="1"/>
-                                    <path d="M2 20h20l-2-3H4l-2 3Z"/>
-                                @break
+                                        @case('pencil')
+                                            <path d="m15 5 4 4"/>
+                                            <path d="M4 20l4-.8L19 8a2.8 2.8 0 0 0-4-4L4 15l-1 5Z"/>
+                                            <path d="m13 6 5 5"/>
+                                        @break
 
-                                @case('tablet')
-                                    <rect x="5" y="2" width="14" height="20" rx="2"/>
-                                    <path d="M11 18h2"/>
-                                @break
+                                        @case('chair')
+                                            <path d="M6 4v9h12V4"/>
+                                            <path d="M4 13h16v3H4z"/>
+                                            <path d="M6 16v5M18 16v5"/>
+                                        @break
 
-                                @case('pencil')
-                                    <path d="m15 5 4 4"/>
-                                    <path d="M4 20l4-.8L19 8a2.8 2.8 0 0 0-4-4L4 15l-1 5Z"/>
-                                    <path d="m13 6 5 5"/>
-                                @break
+                                        @case('headphones')
+                                            <path d="M3 13v-2a9 9 0 0 1 18 0v2"/>
+                                            <rect x="3" y="12" width="4" height="7" rx="2"/>
+                                            <rect x="17" y="12" width="4" height="7" rx="2"/>
+                                            <path d="M17 19c0 2-2 3-5 3"/>
+                                        @break
 
-                                @case('chair')
-                                    <path d="M6 4v9h12V4"/>
-                                    <path d="M4 13h16v3H4z"/>
-                                    <path d="M6 16v5M18 16v5"/>
-                                @break
+                                        @case('flask')
+                                            <path d="M9 3h6"/>
+                                            <path d="M10 3v7L5 19a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/>
+                                            <path d="M7 16h10"/>
+                                            <path d="M9 13h6"/>
+                                        @break
 
-                                @case('headphones')
-                                    <path d="M3 13v-2a9 9 0 0 1 18 0v2"/>
-                                    <rect x="3" y="12" width="4" height="7" rx="2"/>
-                                    <rect x="17" y="12" width="4" height="7" rx="2"/>
-                                    <path d="M17 19c0 2-2 3-5 3"/>
-                                @break
+                                        @case('cabinet')
+                                            <rect x="4" y="3" width="16" height="18" rx="1"/>
+                                            <path d="M12 3v18"/>
+                                            <path d="M9 11h.01M15 11h.01"/>
+                                        @break
 
-                                @case('flask')
-                                    <path d="M9 3h6"/>
-                                    <path d="M10 3v7L5 19a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/>
-                                    <path d="M7 16h10"/>
-                                    <path d="M9 13h6"/>
-                                @break
+                                        @case('bed')
+                                            <path d="M3 18V6"/>
+                                            <path d="M3 14h18v4H3Z"/>
+                                            <path d="M7 14V9h5v5"/>
+                                            <path d="M12 14V9h5a4 4 0 0 1 4 4"/>
+                                            <path d="M3 18v3M21 18v3"/>
+                                        @break
 
-                                @case('cabinet')
-                                    <rect x="4" y="3" width="16" height="18" rx="1"/>
-                                    <path d="M12 3v18"/>
-                                    <path d="M9 11h.01M15 11h.01"/>
-                                @break
+                                        @case('dumbbell')
+                                            <path d="M6 9v6M3 10v4M18 9v6M21 10v4"/>
+                                            <path d="M6 12h12"/>
+                                        @break
 
-                                @case('bed')
-                                    <path d="M3 18V6"/>
-                                    <path d="M3 14h18v4H3Z"/>
-                                    <path d="M7 14V9h5v5"/>
-                                    <path d="M12 14V9h5a4 4 0 0 1 4 4"/>
-                                    <path d="M3 18v3M21 18v3"/>
-                                @break
+                                        @case('phone')
+                                            <rect x="7" y="2" width="10" height="20" rx="2"/>
+                                            <path d="M11 18h2"/>
+                                        @break
 
-                                @case('dumbbell')
-                                    <path d="M6 9v6M3 10v4M18 9v6M21 10v4"/>
-                                    <path d="M6 12h12"/>
-                                @break
+                                        @case('motorcycle')
+                                            <circle cx="6" cy="17" r="3"/>
+                                            <circle cx="18" cy="17" r="3"/>
+                                            <path d="m6 17 4-7h4l4 7M10 10l-3-2M14 10h3"/>
+                                        @break
 
-                                @default
-                                    <path d="M3 7h18v13H3z"/>
-                                    <path d="M3 7l9-4 9 4"/>
-                                    <path d="M9 12h6"/>
-                            @endswitch
-                        </svg>
-                    </span>
+                                        @case('camera')
+                                            <rect x="3" y="7" width="18" height="13" rx="2"/>
+                                            <path d="m8 7 2-3h4l2 3"/>
+                                            <circle cx="12" cy="13.5" r="3"/>
+                                        @break
 
-                    <span class="line-clamp-2 text-center text-[10px] font-extrabold leading-tight text-[#30232d]">
-                        {{ $k->nama_kategori }}
-                    </span>
-                </a>
+                                        @case('shoe')
+                                            <path d="M3 15c3 0 5-2 7-5l3 3 6 2c2 1 3 2 2 4H4a2 2 0 0 1-1-4Z"/>
+                                        @break
+
+                                        @case('beauty')
+                                            <path d="M9 3h6l1 5H8l1-5Z"/>
+                                            <path d="M8 8h8v13H8z"/>
+                                            <path d="M10 12h4"/>
+                                        @break
+
+                                        @case('health')
+                                            <rect x="4" y="5" width="16" height="16" rx="2"/>
+                                            <path d="M12 9v8M8 13h8"/>
+                                            <path d="M9 5V3h6v2"/>
+                                        @break
+
+                                        @case('music')
+                                            <path d="M9 18V5l12-2v13"/>
+                                            <circle cx="6" cy="18" r="3"/>
+                                            <circle cx="18" cy="16" r="3"/>
+                                        @break
+
+                                        @case('accessories')
+                                            <circle cx="8" cy="8" r="2"/>
+                                            <circle cx="16" cy="16" r="2"/>
+                                            <path d="m10 10 4 4M16 4v4M8 16v4"/>
+                                        @break
+
+                                        @case('decor')
+                                            <path d="M5 10h14l-1 11H6L5 10Z"/>
+                                            <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+                                            <path d="M9 4 7 2M15 4l2-2"/>
+                                        @break
+
+                                        @case('bag')
+                                            <path d="M4 8h16l1 13H3L4 8Z"/>
+                                            <path d="M9 8V6a3 3 0 0 1 6 0v2"/>
+                                        @break
+
+                                        @case('game')
+                                            <path d="M6 9h12a4 4 0 0 1 3.8 5l-1 4a2 2 0 0 1-3.3 1l-3-2h-5l-3 2a2 2 0 0 1-3.3-1l-1-4A4 4 0 0 1 6 9Z"/>
+                                            <path d="M8 12v4M6 14h4M16 13h.01M18 15h.01"/>
+                                        @break
+
+                                        @case('food')
+                                            <path d="M4 3v8M7 3v8M4 7h3M5.5 11v10"/>
+                                            <path d="M15 3v18M15 3c4 2 5 6 0 9"/>
+                                        @break
+
+                                        @default
+                                            <path d="M3 7h18v13H3z"/>
+                                            <path d="M3 7l9-4 9 4"/>
+                                            <path d="M9 12h6"/>
+                                    @endswitch
+                                </svg>
+                            </span>
+
+                            <span class="line-clamp-2 text-center text-[10px] font-extrabold leading-tight text-[#30232d]">
+                                {{ $k->nama_kategori }}
+                            </span>
+                        </a>
+                    @endforeach
+                </div>
             @endforeach
-
         </div>
-    </section>
 
+        {{-- TOMBOL NAVIGASI --}}
+        @if($kategoriSlides->count() > 1)
+            <button
+                type="button"
+                id="kategori-prev"
+                aria-label="Kategori sebelumnya"
+                class="absolute -left-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[#781d40] text-xl text-white shadow-lg transition hover:bg-[#5e1531]"
+            >
+                ‹
+            </button>
+
+            <button
+                type="button"
+                id="kategori-next"
+                aria-label="Kategori berikutnya"
+                class="absolute -right-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[#781d40] text-xl text-white shadow-lg transition hover:bg-[#5e1531]"
+            >
+                ›
+            </button>
+        @endif
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const slides = document.querySelectorAll('.kategori-slide');
+    const prev = document.getElementById('kategori-prev');
+    const next = document.getElementById('kategori-next');
+
+    if (!slides.length || !prev || !next) return;
+
+    let currentSlide = 0;
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.style.display = i === index ? 'grid' : 'none';
+        });
+
+        prev.style.opacity = index === 0 ? '0.45' : '1';
+        prev.disabled = index === 0;
+
+        next.style.opacity = index === slides.length - 1 ? '0.45' : '1';
+        next.disabled = index === slides.length - 1;
+    }
+
+    prev.addEventListener('click', function () {
+        if (currentSlide > 0) {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+    });
+
+    next.addEventListener('click', function () {
+        if (currentSlide < slides.length - 1) {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+    });
+
+    showSlide(currentSlide);
+});
+</script>
 
     {{-- DAFTAR BARANG --}}
     <section id="katalog">

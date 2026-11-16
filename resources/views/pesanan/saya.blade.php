@@ -1,4 +1,5 @@
 @extends('layouts.app')
+
 @section('title', 'Pesanan Saya')
 
 @section('content')
@@ -33,7 +34,7 @@
             <span class="font-bold text-[#781d40]">Pesanan Saya</span>
         </div>
 
-                {{-- HEADER PROFIL --}}
+        {{-- HEADER PROFIL --}}
         <section class="account-header bg-white rounded-xl border border-[#eeeae5] p-5 mb-4 shadow-[0_1px_3px_rgba(40,20,20,0.04)]">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-5">
                 <div class="flex items-center gap-4 min-w-0">
@@ -49,31 +50,43 @@
                             </div>
                         @endif
                     </div>
+
                     <div class="min-w-0">
                         <h1 class="text-2xl font-extrabold text-[#35101f] leading-tight">{{ $user->nama }}</h1>
+
                         <p class="text-[12px] md:text-[13px] text-[#796e70] mt-1">
                             {{ $user->fakultas ?: 'Identitas kampus belum dilengkapi' }}
-                            @if($user->program_studi ?? false) <span class="mx-1">•</span>{{ $user->program_studi }} @endif
+                            @if($user->program_studi ?? false)
+                                <span class="mx-1">•</span>{{ $user->program_studi }}
+                            @endif
                             <span class="mx-1">•</span>Angkatan {{ $user->angkatan ?: '—' }}
                         </p>
+
                         <span class="inline-flex items-center gap-1.5 mt-2.5 rounded-full bg-[#781d40] text-white px-3 py-1 text-[10px] md:text-[11px] font-bold">
-                            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="m12 3 2.5 2 3.2-.1.8 3.1 2.5 2-1.2 3 1.2 3-2.5 2-.8 3.1-3.2-.1L12 23l-2.5-2-3.2.1-.8-3.1-2.5-2 1.2-3-1.2-3 2.5-2 .8-3.1 3.2.1L12 3Z"/>
-                                <path d="m9 12 2 2 4-4"/>
-                            </svg>
                             {{ $user->status_verifikasi === 'terverifikasi' ? 'Mahasiswa Terverifikasi UB' : 'Menunggu Verifikasi' }}
                         </span>
                     </div>
                 </div>
+
                 <div class="account-header-actions flex flex-col gap-2 w-full md:w-[164px] shrink-0">
                     <a href="{{ route('pengajuan.form') }}" class="min-h-[37px] inline-flex items-center justify-center gap-2 rounded-lg bg-[#781d40] text-white px-3 py-2 text-[11px] md:text-xs font-bold hover:bg-[#5e1531] transition">
-                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h18"/><path d="M5 10V20h14V10"/><path d="M3 10 5 4h14l2 6"/><path d="M9 20v-6h6v6"/></svg>
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 10h18"/>
+                            <path d="M5 10V20h14V10"/>
+                            <path d="M3 10 5 4h14l2 6"/>
+                            <path d="M9 20v-6h6v6"/>
+                        </svg>
                         <span>Daftar sebagai Penjual</span>
                     </a>
+
                     <form method="POST" action="{{ route('logout') }}" class="w-full">
                         @csrf
                         <button type="submit" class="w-full min-h-[37px] inline-flex items-center justify-center gap-2 rounded-lg border border-[#e8e4df] bg-white px-3 py-2 text-[11px] md:text-xs font-semibold text-[#62595b] hover:bg-[#f8f7f3] transition">
-                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/><path d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7"/></svg>
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M10 17l5-5-5-5"/>
+                                <path d="M15 12H3"/>
+                                <path d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7"/>
+                            </svg>
                             Logout
                         </button>
                     </form>
@@ -81,43 +94,28 @@
             </div>
         </section>
 
-{{-- NAVIGASI PROFIL --}}
-        <nav class="grid grid-cols-3 gap-1.5 md:gap-2 bg-[#eeece4] rounded-xl p-1.5 md:p-2 mb-4">
+        {{-- NAVIGASI AKUN --}}
+        <nav class="grid grid-cols-3 gap-2 rounded-xl bg-[#eeece4] p-2 mb-5" aria-label="Navigasi akun">
 
+            {{-- PROFIL SAYA --}}
             <a href="{{ route('profil.edit') }}"
-               class="flex items-center justify-center gap-1.5 md:gap-2 rounded-lg text-[#51494a] py-3 px-1.5 text-[10px] sm:text-xs font-bold hover:bg-white/70 transition">
-                <svg class="w-3.5 h-3.5 md:w-4 md:h-4 shrink-0" viewBox="0 0 24 24"
-                     fill="none" stroke="currentColor" stroke-width="1.8"
-                     stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="8" r="3.5"/>
-                    <path d="M5 21c0-3.8 3.1-6.5 7-6.5s7 2.7 7 6.5"/>
-                </svg>
+               class="flex min-h-[52px] items-center justify-center gap-2 rounded-lg px-2 py-3 text-center text-xs md:text-sm font-bold text-[#51494a] transition hover:bg-white/70 hover:text-[#781d40]">
                 <span>Profil Saya</span>
             </a>
 
+            {{-- PESANAN SAYA AKTIF --}}
             <a href="{{ route('pesanan.saya') }}"
-               class="flex items-center justify-center gap-1.5 md:gap-2 rounded-lg bg-[#781d40] text-white py-3 px-1.5 text-[10px] sm:text-xs font-bold">
-                <svg class="w-3.5 h-3.5 md:w-4 md:h-4 shrink-0" viewBox="0 0 24 24"
-                     fill="none" stroke="currentColor" stroke-width="1.8"
-                     stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M7 3h10l3 3v15H4V3h3Z"/>
-                    <path d="M8 3v5h8V3"/>
-                    <path d="M8 13h8M8 17h6"/>
-                </svg>
+               aria-current="page"
+               class="flex min-h-[52px] items-center justify-center gap-2 rounded-lg bg-[#781d40] px-2 py-3 text-center text-xs md:text-sm font-bold text-white shadow-sm transition">
                 <span>Pesanan Saya</span>
-                <span class="rounded-full bg-white text-[#781d40] min-w-[17px] h-[17px] px-1 grid place-items-center text-[9px]">
+                <span class="rounded-full bg-white text-[#781d40] min-w-[19px] h-[19px] px-1 grid place-items-center text-[9px] font-extrabold">
                     {{ $jumlahSemua }}
                 </span>
             </a>
 
+            {{-- PENGATURAN AKUN --}}
             <a href="{{ route('pengaturan.index') }}"
-               class="flex items-center justify-center gap-1.5 md:gap-2 rounded-lg text-[#51494a] py-3 px-1.5 text-[10px] sm:text-xs font-bold hover:bg-white/70 transition">
-                <svg class="w-3.5 h-3.5 md:w-4 md:h-4 shrink-0" viewBox="0 0 24 24"
-                     fill="none" stroke="currentColor" stroke-width="1.8"
-                     stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="3"/>
-                    <path d="m19.4 15 .1.1 1.1 1.9-2 3.4-2.2-.5a8 8 0 0 1-1.8 1l-.7 2.1h-4l-.7-2.1a8 8 0 0 1-1.8-1l-2.2.5-2-3.4 1.1-1.9a8 8 0 0 1 0-2l-1.1-1.9 2-3.4 2.2.5a8 8 0 0 1 1.8-1L9.9 5h4l.7 2.1a8 8 0 0 1 1.8 1l2.2-.5 2 3.4-1.1 1.9a8 8 0 0 1-.1 2.1Z" transform="translate(0 -2) scale(1 .95)"/>
-                </svg>
+               class="flex min-h-[52px] items-center justify-center gap-2 rounded-lg px-2 py-3 text-center text-xs md:text-sm font-bold text-[#51494a] transition hover:bg-white/70 hover:text-[#781d40]">
                 <span>Pengaturan Akun</span>
             </a>
         </nav>
@@ -155,6 +153,7 @@
                         <circle cx="10.8" cy="10.8" r="6.8"/>
                         <path d="m16 16 5 5"/>
                     </svg>
+
                     <input id="cari-pesanan"
                            type="search"
                            placeholder="Cari berdasarkan ID pesanan atau nama barang..."
@@ -332,6 +331,7 @@
                                 <circle cx="7.5" cy="18" r="2"/>
                                 <circle cx="17.5" cy="18" r="2"/>
                             </svg>
+
                             <div>
                                 Status pengiriman:
                                 <strong>{{ $p->pengiriman->status_pengiriman }}</strong>
@@ -531,11 +531,38 @@ document.addEventListener('DOMContentLoaded', function () {
 
 <style>
 /* UB Mager: penyamaan ukuran komponen halaman akun */
-.page-shell .account-page, .page-shell .account-page * { box-sizing: border-box; }
-.account-page .account-card { border:1px solid #eeeae5; border-radius:12px; background:#fff; box-shadow:0 1px 3px rgba(40,20,20,.04); }
-.account-page input:not([type=checkbox]):not([type=radio]), .account-page select, .account-page textarea { min-height:42px; border-radius:8px; }
-.account-page button, .account-page a { -webkit-tap-highlight-color:transparent; }
-.account-page svg { flex-shrink:0; }
-@media (max-width: 640px) { .account-page .account-header-actions { width:100%; } }
+.page-shell .account-page,
+.page-shell .account-page * {
+    box-sizing: border-box;
+}
+
+.account-page .account-card {
+    border: 1px solid #eeeae5;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(40,20,20,.04);
+}
+
+.account-page input:not([type=checkbox]):not([type=radio]),
+.account-page select,
+.account-page textarea {
+    min-height: 42px;
+    border-radius: 8px;
+}
+
+.account-page button,
+.account-page a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.account-page svg {
+    flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+    .account-page .account-header-actions {
+        width: 100%;
+    }
+}
 </style>
 @endsection

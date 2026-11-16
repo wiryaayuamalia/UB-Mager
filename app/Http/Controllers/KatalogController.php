@@ -38,7 +38,7 @@ class KatalogController extends Controller
 
         return view('katalog.index', [
             'katalog' => $q->latest('created_at')->paginate(8)->withQueryString(),
-            'kategori' => Kategori::orderBy('nama_kategori')->get(),
+            'kategori' => Kategori::orderBy('id_kategori')->get(),
             'lokasi' => self::LOKASI,
         ]);
     }
