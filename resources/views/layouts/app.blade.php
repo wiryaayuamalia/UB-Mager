@@ -831,7 +831,13 @@
                                 {{ auth()->user()->nama }}
                             </span>
                             <span class="block text-[10px] font-semibold text-[#665b5c]">
-                                Mahasiswa UB
+                                @if(auth()->user()->role === 'admin')
+                                    Administrator
+                                @elseif(auth()->user()->role === 'penjual')
+                                    Penjual UB Mager
+                                @else
+                                    Mahasiswa UB
+                                @endif
                             </span>
                         </span>
                     </a>

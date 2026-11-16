@@ -4,10 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class ProfilController extends Controller
 {
-    public function edit() { return view('auth.profil'); }
+    public function edit()
+    {
+        return view('auth.profil');
+    }
 
     // PGN-UR-03: lengkapi profil & ubah password
     public function update(Request $r)
@@ -21,14 +25,48 @@ class ProfilController extends Controller
             'program_studi' => 'nullable|string|max:120',
             'angkatan' => 'nullable|digits:4',
             'titik_cod_favorit' => 'required|string|max:150',
-            'foto' => 'nullable|image|max:2048',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
             'password' => 'nullable|min:8|confirmed',
+        ], [
+            'foto.image' => 'File foto harus berupa gambar.',
+            'foto.mimes' => 'Foto hanya boleh berformat JPG atau PNG.',
+            'foto.max' => 'Ukuran foto maksimal 5 MB.',
         ]);
+
         $u = $r->user();
-        $data = $r->only('nama','alamat','no_hp','nim','fakultas','program_studi','angkatan','titik_cod_favorit');
-        if ($r->hasFile('foto')) $data['foto'] = $r->file('foto')->store('foto-profil', 'public');
-        if ($r->filled('password')) $data['password_hash'] = Hash::make($r->password);
+
+        $data = $r->only(
+            'nama',
+            'alamat',
+            'no_hp',
+            'nim',
+            'fakultas',
+            'program_studi',
+            'angkatan',
+            'titik_cod_favorit'
+        );
+
+        $fotoLama = $u->foto;
+
+        if ($r->hasFile('foto')) {
+            $data['foto'] = $r->file('foto')->store('foto-profil', 'public');
+        }
+
+        if ($r->filled('password')) {
+            $data['password_hash'] = Hash::make($r->password);
+        }
+
         $u->update($data);
-        return back()->with('ok', 'Profil diperbarui.');
+
+        // Hapus foto lama setelah foto baru berhasil disimpan.
+        if (
+            $r->hasFile('foto') &&
+            $fotoLama &&
+            Storage::disk('public')->exists($fotoLama)
+        ) {
+            Storage::disk('public')->delete($fotoLama);
+        }
+
+        return back()->with('ok', 'Profil berhasil diperbarui.');
     }
 }

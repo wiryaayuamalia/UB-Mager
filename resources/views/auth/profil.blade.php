@@ -149,11 +149,37 @@
                         </div>
                     </div>
 
-                    @if(session('ok'))
-                        <div class="mb-4 rounded-lg bg-green-50 border border-green-200 px-4 py-3 text-sm text-green-700">
-                            {{ session('ok') }}
-                        </div>
-                    @endif
+
+@if(session('ok'))
+    <div id="flash-berhasil"
+        class="mb-5 flex items-start gap-3 rounded-xl border border-green-200 bg-green-50 p-4 shadow-sm">
+
+        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-green-100">
+            <svg class="h-5 w-5 text-green-700"
+                viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="m5 12 4 4L19 6"/>
+            </svg>
+        </div>
+
+        <div class="min-w-0 flex-1">
+            <h3 class="text-sm font-extrabold text-green-800">
+                Berhasil Melakukan Perubahan!
+            </h3>
+            <p class="mt-1 text-xs leading-5 text-green-700">
+                {{ session('ok') }}
+            </p>
+        </div>
+
+        <button type="button"
+            onclick="document.getElementById('flash-berhasil').remove()"
+            class="text-lg leading-none text-green-700 hover:text-green-900"
+            aria-label="Tutup">
+            &times;
+        </button>
+    </div>
+@endif
 
                     @if($errors->any())
                         <div class="mb-4 rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
@@ -321,23 +347,75 @@
                                     </div>
                         </div>
 
+
                         {{-- FOTO PROFIL --}}
                         <div>
-                            <label class="block text-sm font-bold mb-2">Foto Profil</label>
-                            <div class="flex flex-wrap items-center gap-3">
-                                <label class="inline-flex items-center gap-2 rounded-lg bg-[#c5dafa] text-[#35101f] px-4 py-2.5 text-xs font-bold cursor-pointer hover:bg-[#b3cdef] transition">
-                                    Unggah Foto
-                                    <input
-                                        type="file"
-                                        name="foto"
-                                        accept="image/jpeg,image/png"
-                                        class="hidden"
-                                        onchange="document.getElementById('nama-file-foto').textContent = this.files[0]?.name || ''"
-                                    >
-                                </label>
-                                <span class="text-xs text-[#796e70]">Format JPG/PNG, maks 2MB</span>
-                                <span id="nama-file-foto" class="text-xs text-[#781d40]"></span>
+                            <div class="flex items-center justify-between gap-3 mb-3">
+                                <h3 class="text-sm md:text-base font-bold text-[#35101f]">
+                                    <span class="inline-flex items-center gap-2">
+                                        <svg class="w-4 h-4" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M14 4h-4L8 6H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-3l-2-2Z"/>
+                                            <circle cx="12" cy="13" r="3"/>
+                                        </svg>
+                                        Unggah Foto
+                                    </span>
+                                </h3>
+
+                                <span class="rounded bg-[#dbeafe] text-[#17365d] px-2.5 py-1 text-[10px] font-bold whitespace-nowrap">
+                                    Maks. 5 MB
+                                </span>
                             </div>
+
+                            <label
+                                id="area-upload-foto"
+                                for="input-foto-profil"
+                                class="group flex min-h-[205px] w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-transparent bg-[#f4f3ee] px-5 py-6 text-center transition hover:border-[#781d40]/30 hover:bg-[#f0eee8]"
+                            >
+                                <div id="preview-foto-container"
+                                    class="mb-3 hidden h-20 w-20 overflow-hidden rounded-full border-4 border-white shadow-sm">
+                                    <img id="preview-foto"
+                                        src=""
+                                        alt="Pratinjau foto profil"
+                                        class="h-full w-full object-cover">
+                                </div>
+
+                                <h4 id="judul-upload-foto"
+                                    class="text-base font-extrabold text-[#35101f]">
+                                    Klik atau Tarik Berkas ke Sini
+                                </h4>
+
+                                <p class="mt-1 text-xs text-[#796e70]">
+                                    Mendukung format JPG atau PNG (Ukuran maksimal 5 MB)
+                                </p>
+
+                                <span class="mt-3 inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2.5 text-xs font-bold text-[#781d40] shadow-sm group-hover:bg-[#fffafc]">
+                                    <svg class="h-4 w-4" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="1.8"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M12 16V4"/>
+                                        <path d="m7 9 5-5 5 5"/>
+                                        <path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/>
+                                    </svg>
+                                    Pilih Foto Profil
+                                </span>
+
+                                <input
+                                    id="input-foto-profil"
+                                    type="file"
+                                    name="foto"
+                                    accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+                                    class="hidden"
+                                >
+                            </label>
+
+                            <p id="nama-file-foto"
+                                class="mt-2 text-xs text-[#781d40] text-center"></p>
+
+                            <p id="error-foto"
+                                class="mt-2 hidden text-xs font-semibold text-red-600 text-center">
+                            </p>
                         </div>
 
                         {{-- KEAMANAN AKUN --}}
@@ -485,5 +563,304 @@
         </div>
     </div>
 
+
+{{-- MODAL KONFIRMASI SIMPAN --}}
+<div id="modal-konfirmasi-simpan"
+    class="fixed inset-0 z-[10000] hidden items-center justify-center bg-black/40 px-4">
+
+    <div class="w-full max-w-[420px] rounded-2xl bg-white p-6 shadow-2xl">
+
+        <div class="flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+                <svg class="h-6 w-6 shrink-0 text-green-600"
+                    viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="m8 12 3 3 5-6"/>
+                </svg>
+
+                <h3 class="text-lg font-extrabold text-[#222]">
+                    Simpan Perubahan
+                </h3>
+            </div>
+
+            <button type="button"
+                id="tutup-konfirmasi-simpan"
+                class="text-2xl leading-none text-gray-500 hover:text-gray-800">
+                &times;
+            </button>
+        </div>
+
+        <p class="mt-4 text-sm leading-5 text-[#62595b]">
+            Perubahan profil Anda akan disimpan. Pastikan seluruh data yang dimasukkan sudah benar.
+        </p>
+
+        <div class="mt-8 flex flex-col-reverse gap-3 sm:flex-row">
+            <button type="button"
+                id="batal-konfirmasi-simpan"
+                class="flex-1 rounded-lg bg-[#eeede7] px-4 py-3 text-sm font-bold text-[#222] hover:bg-[#e4e2da]">
+                Batal
+            </button>
+
+            <button type="button"
+                id="lanjut-simpan-profil"
+                class="flex-1 rounded-lg bg-[#781d40] px-4 py-3 text-sm font-bold text-white hover:bg-[#5e1531]">
+                Simpan
+            </button>
+        </div>
+    </div>
+</div>
+
+{{-- MODAL PERUBAHAN BELUM DISIMPAN --}}
+<div id="modal-perubahan"
+    class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/40 px-4">
+
+    <div class="w-full max-w-[420px] rounded-2xl bg-white p-6 shadow-2xl">
+
+        <div class="flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+                <svg class="h-6 w-6 shrink-0 text-red-600"
+                    viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.8"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 3h11l4 4v14H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/>
+                    <path d="M8 3v6h8V3"/>
+                    <path d="M8 21v-7h8v7"/>
+                </svg>
+
+                <h3 class="text-lg font-extrabold text-[#222]">
+                    Perubahan Belum Disimpan
+                </h3>
+            </div>
+
+            <button type="button"
+                id="tutup-modal-perubahan"
+                class="text-2xl leading-none text-gray-500 hover:text-gray-800"
+                aria-label="Tutup">
+                &times;
+            </button>
+        </div>
+
+        <p class="mt-4 text-sm leading-5 text-[#62595b]">
+            Anda memiliki perubahan yang belum disimpan.
+            Jika keluar sekarang, perubahan tersebut akan hilang.
+        </p>
+
+        <div class="mt-8 flex flex-col-reverse gap-3 sm:flex-row">
+            <button type="button"
+                id="tetap-di-halaman"
+                class="flex-1 rounded-lg bg-[#eeede7] px-4 py-3 text-sm font-bold text-[#222] hover:bg-[#e4e2da]">
+                Tetap di Halaman
+            </button>
+
+            <button type="button"
+                id="buang-perubahan"
+                class="flex-1 rounded-lg bg-[#781d40] px-4 py-3 text-sm font-bold text-white hover:bg-[#5e1531]">
+                Buang Perubahan
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('form[action="{{ route('profil.update') }}"]');
+    const modal = document.getElementById('modal-perubahan');
+
+    if (!form || !modal) return;
+
+    let isDirty = false;
+    let tujuanNavigasi = null;
+    let sedangMenyimpan = false;
+
+    const inputFoto = document.getElementById('input-foto-profil');
+    const areaUpload = document.getElementById('area-upload-foto');
+    const preview = document.getElementById('preview-foto');
+    const previewContainer = document.getElementById('preview-foto-container');
+    const namaFile = document.getElementById('nama-file-foto');
+    const errorFoto = document.getElementById('error-foto');
+    const ikonUpload = document.getElementById('ikon-upload-foto');
+    const judulUpload = document.getElementById('judul-upload-foto');
+
+    // Deteksi perubahan pada form.
+    form.addEventListener('input', function () {
+        isDirty = true;
+    });
+
+    form.addEventListener('change', function () {
+        isDirty = true;
+    });
+
+    // Periksa apakah file foto valid.
+    function tampilkanFoto(file) {
+        errorFoto.classList.add('hidden');
+        errorFoto.textContent = '';
+
+        if (!file) return;
+
+        const formatValid = ['image/jpeg', 'image/png'];
+        const ukuranMaksimal = 5 * 1024 * 1024;
+
+        if (!formatValid.includes(file.type)) {
+            errorFoto.textContent = 'Format foto harus JPG atau PNG.';
+            errorFoto.classList.remove('hidden');
+            inputFoto.value = '';
+            return;
+        }
+
+        if (file.size > ukuranMaksimal) {
+            errorFoto.textContent = 'Ukuran foto maksimal 5 MB.';
+            errorFoto.classList.remove('hidden');
+            inputFoto.value = '';
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+            preview.src = event.target.result;
+            previewContainer.classList.remove('hidden');
+            ikonUpload.classList.add('hidden');
+
+            judulUpload.textContent = 'Foto Berhasil Dipilih';
+            namaFile.textContent = file.name;
+            isDirty = true;
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+    inputFoto.addEventListener('change', function () {
+        tampilkanFoto(this.files[0]);
+    });
+
+    // Drag and drop.
+    ['dragenter', 'dragover'].forEach(function (eventName) {
+        areaUpload.addEventListener(eventName, function (event) {
+            event.preventDefault();
+            areaUpload.classList.add('border-[#781d40]', 'bg-[#f0e8ec]');
+        });
+    });
+
+    ['dragleave', 'drop'].forEach(function (eventName) {
+        areaUpload.addEventListener(eventName, function (event) {
+            event.preventDefault();
+            areaUpload.classList.remove('border-[#781d40]', 'bg-[#f0e8ec]');
+        });
+    });
+
+    areaUpload.addEventListener('drop', function (event) {
+        const file = event.dataTransfer.files[0];
+
+        if (!file) return;
+
+        const transfer = new DataTransfer();
+        transfer.items.add(file);
+        inputFoto.files = transfer.files;
+
+        tampilkanFoto(file);
+    });
+
+    // Modal peringatan.
+    function bukaModal(url) {
+        tujuanNavigasi = url;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    function tutupModal() {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        tujuanNavigasi = null;
+    }
+
+    document.getElementById('tutup-modal-perubahan')
+        .addEventListener('click', tutupModal);
+
+    document.getElementById('tetap-di-halaman')
+        .addEventListener('click', tutupModal);
+
+    document.getElementById('buang-perubahan')
+        .addEventListener('click', function () {
+            if (tujuanNavigasi) {
+                window.location.href = tujuanNavigasi;
+            }
+        });
+
+    // Tangkap klik tautan internal.
+    document.addEventListener('click', function (event) {
+        const link = event.target.closest('a[href]');
+
+        if (!link || !isDirty || sedangMenyimpan) return;
+
+        if (
+            link.target === '_blank' ||
+            link.hasAttribute('download') ||
+            event.ctrlKey ||
+            event.metaKey ||
+            event.shiftKey ||
+            event.altKey
+        ) return;
+
+        const url = new URL(link.href, window.location.href);
+
+        if (url.origin !== window.location.origin) return;
+        if (url.href === window.location.href) return;
+
+        event.preventDefault();
+        bukaModal(url.href);
+    });
+
+// KONFIRMASI SIMPAN PROFIL
+const modalSimpan = document.getElementById('modal-konfirmasi-simpan');
+const tombolLanjutSimpan = document.getElementById('lanjut-simpan-profil');
+const tombolBatalSimpan = document.getElementById('batal-konfirmasi-simpan');
+const tombolTutupSimpan = document.getElementById('tutup-konfirmasi-simpan');
+
+let konfirmasiDiberikan = false;
+
+form.addEventListener('submit', function (event) {
+    if (konfirmasiDiberikan) {
+        sedangMenyimpan = true;
+        isDirty = false;
+        return;
+    }
+
+    event.preventDefault();
+
+    modalSimpan.classList.remove('hidden');
+    modalSimpan.classList.add('flex');
+});
+
+function tutupKonfirmasiSimpan() {
+    modalSimpan.classList.add('hidden');
+    modalSimpan.classList.remove('flex');
+}
+
+tombolBatalSimpan.addEventListener('click', tutupKonfirmasiSimpan);
+tombolTutupSimpan.addEventListener('click', tutupKonfirmasiSimpan);
+
+tombolLanjutSimpan.addEventListener('click', function () {
+    konfirmasiDiberikan = true;
+    sedangMenyimpan = true;
+    isDirty = false;
+
+    modalSimpan.classList.add('hidden');
+    modalSimpan.classList.remove('flex');
+
+    form.requestSubmit();
+});
+
+    // Peringatan bawaan browser saat refresh atau menutup tab.
+    window.addEventListener('beforeunload', function (event) {
+        if (isDirty && !sedangMenyimpan) {
+            event.preventDefault();
+            event.returnValue = '';
+        }
+    });
+});
+</script>
 
 @endsection

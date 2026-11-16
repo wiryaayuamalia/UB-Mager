@@ -111,14 +111,19 @@ class AuthController extends Controller
     public function login(Request $r)
     {
         $r->validate(['kontak' => 'required', 'password' => 'required']);
-        $user = Pengguna::where('email', $r->kontak)->orWhere('no_hp', $r->kontak)->first();
+
+        $user = Pengguna::where('email', $r->kontak)
+            ->orWhere('no_hp', $r->kontak)
+            ->first();
 
         if (!$user || !Hash::check($r->password, $user->password_hash)) {
             return back()->withErrors(['kontak' => 'Email/No HP atau password salah.'])->withInput();
         }
+
         if ($user->status_akun !== 'aktif') {
             return back()->withErrors(['kontak' => 'Akun tidak aktif / disuspend.']);
         }
+
         if ($user->status_verifikasi !== 'terverifikasi') {
             $this->kirimOtp($user);
             session(['otp_user' => $user->id_pengguna]);
@@ -127,7 +132,14 @@ class AuthController extends Controller
 
         Auth::login($user);
         $r->session()->regenerate();
-        return redirect()->intended($user->role === 'admin' ? route('admin.pengajuan.index') : route('katalog.index'));
+
+        $tujuan = match ($user->role) {
+            'admin' => route('admin.pengajuan.index'),
+            'penjual' => route('penjual.dashboard'),
+            default => route('katalog.index'),
+        };
+
+        return redirect()->intended($tujuan);
     }
 
     public function logout(Request $r)
