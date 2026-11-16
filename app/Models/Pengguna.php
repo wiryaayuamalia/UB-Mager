@@ -12,10 +12,36 @@ class Pengguna extends Authenticatable
     protected $guarded = [];
     protected $hidden = ['password_hash'];
 
-    public function getAuthPassword() { return $this->password_hash; }
-    public function getRememberTokenName() { return ''; } // tabel tidak punya remember_token
+    public function getAuthPassword()
+    {
+        return $this->password_hash;
+    }
 
-    public function penjual() { return $this->hasOne(Penjual::class, 'id_pengguna', 'id_pengguna'); }
-    public function admin() { return $this->hasOne(Admin::class, 'id_pengguna', 'id_pengguna'); }
-    public function keranjang() { return $this->hasMany(Keranjang::class, 'id_pengguna', 'id_pengguna'); }
+    public function getRememberTokenName()
+    {
+        return '';
+    }
+
+    public function penjual()
+    {
+        return $this->hasOne(Penjual::class, 'id_pengguna', 'id_pengguna');
+    }
+
+    public function admin()
+    {
+        return $this->hasOne(Admin::class, 'id_pengguna', 'id_pengguna');
+    }
+
+    public function keranjang()
+    {
+        return $this->hasMany(Keranjang::class, 'id_pengguna', 'id_pengguna');
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'preferensi_notifikasi' => 'array',
+            'preferensi_privasi' => 'array',
+        ];
+    }
 }

@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\{AuthController, ProfilController, KatalogController, KeranjangController, CheckoutController,
+use App\Http\Controllers\{AuthController, ProfilController, PengaturanController, KatalogController, KeranjangController, CheckoutController,
     PaymentController, OrderProcessingController, PesananController, PengajuanPenjualController};
 use App\Http\Controllers\Admin\{PengajuanController, KatalogController as AdminKatalogController};
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\NotifikasiController;
 
 Route::get('/', fn() => redirect()->route('katalog.index'));
 
@@ -28,6 +29,30 @@ Route::middleware('auth')->group(function () {
     Route::get('/profil', [ProfilController::class, 'edit'])->name('profil.edit');
     Route::post('/profil', [ProfilController::class, 'update'])->name('profil.update');
 
+        // Pengaturan Akun
+    Route::get('/pengaturan-akun', [PengaturanController::class, 'index'])
+        ->name('pengaturan.index');
+
+    Route::post('/pengaturan-akun/notifikasi', [PengaturanController::class, 'updateNotifikasi'])
+        ->name('pengaturan.notifikasi');
+
+    Route::post('/pengaturan-akun/privasi', [PengaturanController::class, 'updatePrivasi'])
+        ->name('pengaturan.privasi');
+
+    Route::post('/pengaturan-akun/password', [PengaturanController::class, 'updatePassword'])
+        ->name('pengaturan.password');
+    
+        // NOTIFIKASI
+    Route::get('/notifikasi', [NotifikasiController::class, 'index'])
+        ->name('notifikasi.index');
+
+    Route::post('/notifikasi/{id}/baca', [NotifikasiController::class, 'baca'])
+        ->whereNumber('id')
+        ->name('notifikasi.baca');
+
+    Route::post('/notifikasi/baca-semua', [NotifikasiController::class, 'bacaSemua'])
+        ->name('notifikasi.baca-semua');
+
     Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang.index');
     Route::post('/keranjang/{katalog}', [KeranjangController::class, 'tambah'])->name('keranjang.tambah');
     Route::delete('/keranjang/{keranjang}', [KeranjangController::class, 'hapus'])->name('keranjang.hapus');
@@ -39,8 +64,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/bayar/{pesanan}', [PaymentController::class, 'upload'])->name('bayar.upload');
     Route::post('/pesanan/{pesanan}/terima', [PaymentController::class, 'konfirmasiTerima'])->name('pesanan.terima');
     Route::get('/pesanan-saya', [PesananController::class, 'saya'])->name('pesanan.saya');
-    Route::get('/chat/{katalog}', [\App\Http\Controllers\ChatController::class, 'show'])->name('chat.show');
-    Route::post('/chat/{katalog}', [\App\Http\Controllers\ChatController::class, 'send'])->name('chat.send');
+
+    Route::get('/chat', [\App\Http\Controllers\ChatController::class, 'index'])
+        ->name('chat.index');
+
+    Route::get('/chat/{katalog}', [\App\Http\Controllers\ChatController::class, 'show'])
+        ->name('chat.show');
+
+    Route::post('/chat/{katalog}', [\App\Http\Controllers\ChatController::class, 'send'])
+        ->name('chat.send');
 
     Route::get('/jadi-penjual', [PengajuanPenjualController::class, 'form'])->name('pengajuan.form');
     Route::post('/jadi-penjual', [PengajuanPenjualController::class, 'store'])->name('pengajuan.store');

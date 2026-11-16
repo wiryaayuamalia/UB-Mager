@@ -8,15 +8,52 @@ use Illuminate\Support\Facades\DB;
 
 class KatalogController extends Controller
 {
+
     public function index(Request $request)
     {
-        $query = Katalog::with(['penjual.pengguna','kategori','foto'])->latest('created_at');
-        if ($request->filled('status')) $query->where('status_katalog', $request->status);
-        if ($request->filled('q')) $query->where('nama_barang','like','%'.$request->q.'%');
-        $list = $query->paginate(15)->withQueryString();
-        $kategori = Kategori::withCount('katalog')->orderBy('nama_kategori')->get();
+        $query = Katalog::with(['penjual.pengguna', 'kategori', 'foto'])
+            ->latest('created_at');
+
+        if ($request->filled('status')) {
+            $query->where('status_katalog', $request->status);
+        }
+
+        if ($request->filled('q')) {
+            $query->where('nama_barang', 'like', '%' . $request->q . '%');
+        }
+
+        if ($request->filled('kategori')) {
+            $query->where('id_kategori', $request->kategori);
+        }
+
+        $list = $query->paginate(5)->withQueryString();
+
+        $kategori = Kategori::withCount('katalog')
+            ->orderBy('nama_kategori')
+            ->get();
+
         $rentang = RentangHarga::orderBy('harga_min')->get();
-        return view('admin.katalog', compact('list','kategori','rentang'));
+
+        $totalAktif = Katalog::where('status_katalog', 'aktif')->count();
+
+        $totalNonaktif = Katalog::where('status_katalog', 'nonaktif')->count();
+
+        $totalMenunggu = Katalog::where(
+            'status_katalog',
+            'menunggu pemeriksaan'
+        )->count();
+
+        $totalKatalog = Katalog::count();
+
+        return view('admin.katalog', compact(
+            'list',
+            'kategori',
+            'rentang',
+            'totalAktif',
+            'totalNonaktif',
+            'totalMenunggu',
+            'totalKatalog'
+        ));
     }
 
     public function periksa(Request $request, Katalog $katalog)
