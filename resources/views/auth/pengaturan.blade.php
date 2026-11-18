@@ -63,6 +63,7 @@
                 </div>
 
                 <div class="account-header-actions flex flex-col gap-2 w-full md:w-[164px] shrink-0">
+                    @if(auth()->user()->role !== 'admin')
                     <a href="{{ route('pengajuan.form') }}" class="min-h-[37px] inline-flex items-center justify-center gap-2 rounded-lg bg-[#781d40] text-white px-3 py-2 text-[11px] md:text-xs font-bold hover:bg-[#5e1531] transition">
                         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M3 10h18"/>
@@ -72,6 +73,7 @@
                         </svg>
                         <span>Daftar sebagai Penjual</span>
                     </a>
+                    @endif
 
                     <form method="POST" action="{{ route('logout') }}" class="w-full">
                         @csrf
@@ -89,27 +91,28 @@
         </section>
 
         {{-- NAVIGASI AKUN --}}
-        <nav class="grid grid-cols-3 gap-2 rounded-xl bg-[#eeece4] p-2 mb-5" aria-label="Navigasi akun">
+        <nav class="grid {{ auth()->user()->role === 'admin' ? 'grid-cols-1' : 'grid-cols-3' }} gap-2 rounded-xl bg-[#eeece4] p-2 mb-5">
 
-            {{-- PROFIL SAYA --}}
-            <a href="{{ route('profil.edit') }}"
-               class="flex min-h-[52px] items-center justify-center gap-2 rounded-lg px-2 py-3 text-center text-xs md:text-sm font-bold text-[#51494a] transition hover:bg-white/70 hover:text-[#781d40]">
-                <span>Profil Saya</span>
-            </a>
+            @if(auth()->user()->role !== 'admin')
+                <a href="{{ route('profil.edit') }}"
+                class="flex min-h-[52px] items-center justify-center rounded-lg px-2 py-3 text-center text-xs md:text-sm font-bold text-[#51494a] hover:bg-white/70 hover:text-[#781d40]">
+                    Profil Saya
+                </a>
 
-            {{-- PESANAN SAYA --}}
-            <a href="{{ route('pesanan.saya') }}"
-               class="flex min-h-[52px] items-center justify-center gap-2 rounded-lg px-2 py-3 text-center text-xs md:text-sm font-bold text-[#51494a] transition hover:bg-white/70 hover:text-[#781d40]">
-                <span>Pesanan Saya</span>
-            </a>
+                <a href="{{ route('pesanan.saya') }}"
+                class="flex min-h-[52px] items-center justify-center rounded-lg px-2 py-3 text-center text-xs md:text-sm font-bold text-[#51494a] hover:bg-white/70 hover:text-[#781d40]">
+                    Pesanan Saya
+                </a>
+            @endif
 
-            {{-- PENGATURAN AKUN AKTIF --}}
             <a href="{{ route('pengaturan.index') }}"
-               aria-current="page"
-               class="flex min-h-[52px] items-center justify-center gap-2 rounded-lg bg-[#781d40] px-2 py-3 text-center text-xs md:text-sm font-bold text-white shadow-sm transition">
-                <span>Pengaturan Akun</span>
+            aria-current="page"
+            class="flex min-h-[52px] items-center justify-center rounded-lg bg-[#781d40] px-2 py-3 text-center text-xs md:text-sm font-bold text-white shadow-sm">
+                Pengaturan Akun
             </a>
+
         </nav>
+
 
         {{-- NOTIFIKASI BERHASIL --}}
         @if(session('ok_password') || session('ok_notifikasi') || session('ok_privasi'))

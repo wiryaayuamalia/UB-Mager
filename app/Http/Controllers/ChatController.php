@@ -20,7 +20,6 @@ class ChatController extends Controller
 
         $userId = $request->user()->id_pengguna;
         $threads = $this->ambilPercakapan($userId);
-
         $q = trim($request->query('q', ''));
 
         if ($q !== '') {
@@ -45,7 +44,6 @@ class ChatController extends Controller
     {
         $sellerId = $request->user()->id_pengguna;
         $threads = $this->ambilPercakapan($sellerId);
-
         $q = trim($request->query('q', ''));
 
         if ($q !== '') {
@@ -70,7 +68,7 @@ class ChatController extends Controller
     }
 
     /**
-     * Mengambil daftar percakapan berdasarkan pengguna dan barang.
+     * Mengambil daftar percakapan.
      */
     private function ambilPercakapan($userId)
     {
@@ -103,7 +101,6 @@ class ChatController extends Controller
 
             $message->barang = $barang;
             $message->lawan_bicara = $lawanBicara;
-
             $message->nama_lawan_bicara = $lawanBicara?->nama ?? 'Pengguna';
 
             if ($barang?->penjual) {
@@ -125,7 +122,8 @@ class ChatController extends Controller
                 ->where('sudah_dibaca', false)
                 ->count();
 
-            $message->status_lawan_bicara = $lawanBicara?->status_akun ?? 'nonaktif';
+            $message->status_lawan_bicara =
+                $lawanBicara?->status_akun ?? 'nonaktif';
 
             return $message;
         })->filter(fn ($thread) => $thread->barang !== null)
@@ -147,18 +145,20 @@ class ChatController extends Controller
         if ((int) $me === (int) $sellerId) {
             $other = (int) $request->query('with');
 
-            abort_unless($other && Pesan::where('id_katalog', $katalog->id_katalog)
-                ->where(function ($query) use ($me, $other) {
-                    $query->where(function ($q) use ($me, $other) {
-                        $q->where('id_pengirim', $me)
-                          ->where('id_penerima', $other);
-                    })->orWhere(function ($q) use ($me, $other) {
-                        $q->where('id_pengirim', $other)
-                          ->where('id_penerima', $me);
-                    });
-                })->exists(), 404);
+            abort_unless(
+                $other && Pesan::where('id_katalog', $katalog->id_katalog)
+                    ->where(function ($query) use ($me, $other) {
+                        $query->where(function ($q) use ($me, $other) {
+                            $q->where('id_pengirim', $me)
+                              ->where('id_penerima', $other);
+                        })->orWhere(function ($q) use ($me, $other) {
+                            $q->where('id_pengirim', $other)
+                              ->where('id_penerima', $me);
+                        });
+                    })->exists(),
+                404
+            );
         } else {
-            abort_unless($katalog->status_katalog === 'aktif', 404);
             $other = $sellerId;
         }
 
@@ -184,11 +184,39 @@ class ChatController extends Controller
             ->where('sudah_dibaca', false)
             ->update(['sudah_dibaca' => true]);
 
+        // Ambil daftar percakapan untuk panel kiri.
+        $threads = $this->ambilPercakapan($me);
+
+        $q = trim($request->query('q', ''));
+
+        if ($q !== '') {
+            $threads = $threads->filter(function ($thread) use ($q) {
+                return str_contains(
+                    mb_strtolower($thread->nama_lawan_bicara),
+                    mb_strtolower($q)
+                ) || str_contains(
+                    mb_strtolower($thread->barang->nama_barang ?? ''),
+                    mb_strtolower($q)
+                );
+            })->values();
+        }
+
+        $isPembeli = (int) $me !== (int) $sellerId;
+
+        $chatTersedia =
+            $request->user()->status_akun === 'aktif' &&
+            (!$isPembeli || $lawanBicara?->status_akun === 'aktif') &&
+            (!$isPembeli || $katalog->status_katalog === 'aktif');
+
         return view('chat.show', compact(
             'katalog',
             'messages',
             'other',
-            'lawanBicara'
+            'lawanBicara',
+            'threads',
+            'q',
+            'chatTersedia',
+            'isPembeli'
         ));
     }
 
@@ -225,7 +253,6 @@ class ChatController extends Controller
                 403
             );
         } else {
-            abort_unless($katalog->status_katalog === 'aktif', 404);
             $recipient = $sellerId;
         }
 
@@ -233,6 +260,20 @@ class ChatController extends Controller
             $request->user()->status_akun === 'aktif',
             403,
             'Akun kamu sedang tidak aktif.'
+        );
+
+        $penerima = Pengguna::find($recipient);
+
+        abort_unless(
+            $penerima && $penerima->status_akun === 'aktif',
+            403,
+            'Akun lawan bicara sedang tidak tersedia.'
+        );
+
+        abort_unless(
+            $katalog->status_katalog === 'aktif',
+            403,
+            'Percakapan tidak dapat dilanjutkan.'
         );
 
         Pesan::create([

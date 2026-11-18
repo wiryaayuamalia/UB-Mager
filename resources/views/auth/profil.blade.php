@@ -17,6 +17,113 @@
     ];
 @endphp
 
+@if($user->role === 'admin')
+
+    {{-- HALAMAN KHUSUS ADMIN --}}
+    <div class="min-h-screen bg-[#faf9f4] px-4 py-10">
+        <div class="mx-auto max-w-4xl">
+
+            <div class="mb-6">
+                <p class="text-xs text-[#796e70]">
+                    Akun Saya / Administrator
+                </p>
+
+                <h1 class="mt-2 text-2xl font-extrabold text-[#35101f]">
+                    Pengaturan Akun Administrator
+                </h1>
+
+                <p class="mt-1 text-sm text-[#796e70]">
+                    Kelola informasi dan keamanan akun administrator UB Mager.
+                </p>
+            </div>
+
+            <div class="rounded-xl border border-[#eeeae5] bg-white p-6 shadow-sm">
+
+                <div class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+
+                    <div class="flex items-center gap-4">
+                        <div class="flex h-16 w-16 items-center justify-center rounded-full bg-[#781d40] text-white">
+                            <svg class="h-8 w-8"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="1.7">
+                                <circle cx="12" cy="8" r="4"/>
+                                <path d="M5 21c0-4 3-7 7-7s7 3 7 7"/>
+                            </svg>
+                        </div>
+
+                        <div>
+                            <h2 class="text-xl font-extrabold text-[#35101f]">
+                                {{ $user->nama }}
+                            </h2>
+
+                            <p class="mt-1 text-sm text-[#796e70]">
+                                Administrator UB Mager
+                            </p>
+
+                            <span class="mt-2 inline-flex rounded-full bg-[#f5e8ee] px-3 py-1 text-xs font-bold text-[#781d40]">
+                                Administrator
+                            </span>
+                        </div>
+                    </div>
+
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+
+                        <button type="submit"
+                                class="rounded-lg border border-[#e8e4df] px-5 py-3 text-sm font-bold text-[#62595b] transition hover:bg-[#f8f7f3]">
+                            Logout
+                        </button>
+                    </form>
+
+                </div>
+
+                <div class="mt-6 border-t border-[#eeeae5] pt-5">
+
+                    <h3 class="font-extrabold text-[#35101f]">
+                        Informasi Akun
+                    </h3>
+
+                    <div class="mt-4 grid gap-3 sm:grid-cols-2">
+
+                        <div class="rounded-lg bg-[#f4f3ee] p-4">
+                            <p class="text-xs text-[#796e70]">Nama Administrator</p>
+                            <p class="mt-1 text-sm font-bold">
+                                {{ $user->nama }}
+                            </p>
+                        </div>
+
+                        <div class="rounded-lg bg-[#f4f3ee] p-4">
+                            <p class="text-xs text-[#796e70]">Email</p>
+                            <p class="mt-1 text-sm font-bold">
+                                {{ $user->email }}
+                            </p>
+                        </div>
+
+                        <div class="rounded-lg bg-[#f4f3ee] p-4">
+                            <p class="text-xs text-[#796e70]">Role Akun</p>
+                            <p class="mt-1 text-sm font-bold">
+                                Administrator
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-5">
+                        <a href="{{ route('pengaturan.index') }}"
+                           class="inline-flex items-center justify-center rounded-lg bg-[#781d40] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#5e1531]">
+                            Pengaturan Akun
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+@else
+
 <div class="account-page min-h-screen w-full bg-[#faf9f4] text-[#35101f]">
     <div class="w-full mx-auto px-3 md:px-4 py-7 md:py-8">
 
@@ -862,5 +969,7 @@ tombolLanjutSimpan.addEventListener('click', function () {
     });
 });
 </script>
+
+@endif
 
 @endsection

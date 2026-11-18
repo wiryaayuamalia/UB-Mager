@@ -34,13 +34,13 @@
                         'Kampus UM',
                         'Area Batu'
                     ] as $zona)
-                        <span class="inline-flex items-center rounded-full bg-white px-3 py-1.5 text-[10px] font-bold text-[#650d2b] whitespace-nowrap">
-                            <svg class="mr-1 h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/>
-                                <circle cx="12" cy="10" r="2.5"/>
-                            </svg>
-                            {{ $zona }}
-                        </span>
+                    <span class="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-[10px] font-bold leading-none text-[#650d2b] whitespace-nowrap">
+                        <svg class="h-3 w-3 shrink-0 block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/>
+                            <circle cx="12" cy="10" r="2.5"/>
+                        </svg>
+                        <span class="leading-none">{{ $zona }}</span>
+                    </span>
                     @endforeach
                 </div>
             </div>

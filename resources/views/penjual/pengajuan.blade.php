@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @section('title', 'Pengajuan Menjadi Penjual')
@@ -430,10 +429,6 @@
 
                         <label for="dokumen-identitas" class="pengajuan-upload">
 
-                            <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center mx-auto text-xl">
-                                <i class="fa-solid fa-cloud-arrow-up"></i>
-                            </div>
-
                             <h3 class="font-extrabold mt-3 text-sm">
                                 Klik atau Tarik Berkas ke Sini
                             </h3>
@@ -853,7 +848,7 @@
         {{-- STATUS MENUNGGU --}}
         <div class="pengajuan-card text-center py-14">
 
-            <div class="text-5xl mb-4">⏳</div>
+            <div class="text-5xl mb-4"></div>
 
             <h2 class="text-xl font-extrabold">
                 Pengajuan Sedang Ditinjau
