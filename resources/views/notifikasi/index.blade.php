@@ -82,19 +82,7 @@
             </div>
         @empty
             <div class="py-16 px-5 text-center">
-                <div class="w-20 h-20 mx-auto mb-5 rounded-full bg-[#f8edf1] flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        width="38"
-                        height="38"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="#781d40"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
-                        <path d="M10 21h4"/>
-                    </svg>
+                <div>
                 </div>
                 <h3 class="font-semibold text-gray-800">
                     Belum ada notifikasi

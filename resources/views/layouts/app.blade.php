@@ -730,10 +730,24 @@
                 @endif
 
                 @auth
-                    <a href="{{ route('pesanan.saya') }}"
-                       class="nav-link {{ request()->routeIs('pesanan.saya', 'penjual.pesanan*') ? 'active' : '' }}">
+
+                    {{-- PESANAN SAYA: KHUSUS NON-ADMIN --}}
+                @if(auth()->check() && auth()->user()->role === 'penjual')
+                    <a
+                        href="{{ route('penjual.pesanan') }}"
+                        class="nav-link {{ request()->routeIs('penjual.pesanan*') ? 'active' : '' }}"
+                    >
+                        Pesanan Masuk
+                    </a>
+
+                @elseif(auth()->check() && auth()->user()->role === 'pengguna')
+                    <a
+                        href="{{ route('pesanan.saya') }}"
+                        class="nav-link {{ request()->routeIs('pesanan.saya') ? 'active' : '' }}"
+                    >
                         Pesanan Saya
                     </a>
+                @endif
 
                     @if(auth()->user()->role === 'penjual' && Route::has('penjual.chat'))
                         <a href="{{ route('penjual.chat') }}"
@@ -784,22 +798,29 @@
                     @endif
 
                     {{-- KERANJANG --}}
-                    @if(Route::has('keranjang.index'))
-                        <a href="{{ route('keranjang.index') }}"
-                           aria-label="Keranjang"
-                           title="Keranjang"
-                           class="nav-icon">
-                            <svg width="19" height="19"
-                                 viewBox="0 0 24 24"
-                                 fill="none"
-                                 stroke="currentColor"
-                                 stroke-width="1.8"
-                                 stroke-linecap="round"
-                                 stroke-linejoin="round">
-                                <path d="M5 8h14l1 13H4L5 8Z"/>
-                                <path d="M9 8V6a3 3 0 0 1 6 0v2"/>
-                            </svg>
-                        </a>
+                    @if(auth()->check() && auth()->user()->role !== 'admin')
+                        @if(Route::has('keranjang.index'))
+                            <a
+                                href="{{ route('keranjang.index') }}"
+                                aria-label="Keranjang"
+                                title="Keranjang"
+                                class="nav-icon"
+                            >
+                                <svg
+                                    width="19"
+                                    height="19"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path d="M5 8h14l1 13H4L5 8Z"/>
+                                    <path d="M9 8V6a3 3 0 0 1 6 0v2"/>
+                                </svg>
+                            </a>
+                        @endif
                     @endif
 
                     {{-- PROFIL --}}
@@ -834,7 +855,7 @@
                                 @if(auth()->user()->role === 'admin')
                                     Administrator
                                 @elseif(auth()->user()->role === 'penjual')
-                                    Penjual UB Mager
+                                    Penjual
                                 @else
                                     Mahasiswa UB
                                 @endif

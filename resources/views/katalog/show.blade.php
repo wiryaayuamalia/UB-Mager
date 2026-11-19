@@ -37,12 +37,12 @@
             </span>
 
             {{-- NAMA BARANG --}}
-            <h1 class="text-2xl font-bold mt-2">
+            <h1 class="text-xl font-bold mt-2">
                 {{ $katalog->nama_barang }}
             </h1>
 
             {{-- HARGA --}}
-            <div class="text-3xl font-extrabold text-maroon my-3">
+            <div class="text-xl font-extrabold text-maroon my-3">
                 Rp {{ number_format($katalog->harga, 0, ',', '.') }}
             </div>
 
@@ -93,9 +93,14 @@
             </dl>
 
             {{-- DESKRIPSI BARANG --}}
-            <p class="text-gray-700 mb-6">
-                {{ $katalog->deskripsi }}
-            </p>
+            @if(
+                !empty($katalog->deskripsi) &&
+                trim($katalog->deskripsi, "- \t\n\r") !== ''
+            )
+                <p class="text-gray-700 mb-6">
+                    {{ $katalog->deskripsi }}
+                </p>
+            @endif
 
             {{-- TOMBOL AKSI PEMBELIAN --}}
             @if($katalog->stok > 0 && $katalog->status_katalog === 'aktif')
@@ -106,7 +111,7 @@
                         @if(auth()->user()->id_pengguna !== $katalog->penjual->id_pengguna)
                             <a
                                 href="{{ route('chat.show', $katalog) }}"
-                                class="rounded-full bg-gray-100 px-5 py-2 font-semibold"
+                                class="bg-gray-100 rounded-lg px-5 py-2 text-sm font-semibold"
                             >
                                 Chat Penjual
                             </a>
@@ -121,7 +126,7 @@
 
                             <button
                                 type="submit"
-                                class="bg-gray-100 rounded-lg px-5 py-2 font-semibold"
+                                class="bg-gray-100 rounded-lg px-5 py-2 text-sm font-semibold"
                             >
                                 + Keranjang
                             </button>
@@ -131,7 +136,7 @@
                     {{-- BELI SEKARANG --}}
                     <a
                         href="{{ route('checkout.form', $katalog) }}"
-                        class="bg-maroon text-white rounded-lg px-5 py-2 font-semibold"
+                        class="bg-maroon text-white rounded-lg px-5 py-2 text-sm font-semibold"
                     >
                         Beli Sekarang
                     </a>

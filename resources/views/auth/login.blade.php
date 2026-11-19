@@ -82,7 +82,7 @@
         Akun demo (password:
         <code>password</code>):
 
-        <p class="mt-2">
+        <p>
             admin@ubmager.test
         </p>
 

@@ -63,21 +63,43 @@
                         </p>
 
                         <span class="inline-flex items-center gap-1.5 mt-2.5 rounded-full bg-[#781d40] text-white px-3 py-1 text-[10px] md:text-[11px] font-bold">
-                            {{ $user->status_verifikasi === 'terverifikasi' ? 'Mahasiswa Terverifikasi UB' : 'Menunggu Verifikasi' }}
+                            @if($user->role === 'admin')
+                                Administrator
+                            @elseif($user->role === 'penjual')
+                                Penjual Terverifikasi UB
+                            @elseif($user->status_verifikasi === 'terverifikasi')
+                                Mahasiswa Terverifikasi UB
+                            @else
+                                Menunggu Verifikasi
+                            @endif
                         </span>
                     </div>
                 </div>
 
                 <div class="account-header-actions flex flex-col gap-2 w-full md:w-[164px] shrink-0">
-                    <a href="{{ route('pengajuan.form') }}" class="min-h-[37px] inline-flex items-center justify-center gap-2 rounded-lg bg-[#781d40] text-white px-3 py-2 text-[11px] md:text-xs font-bold hover:bg-[#5e1531] transition">
-                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M3 10h18"/>
-                            <path d="M5 10V20h14V10"/>
-                            <path d="M3 10 5 4h14l2 6"/>
-                            <path d="M9 20v-6h6v6"/>
-                        </svg>
-                        <span>Daftar sebagai Penjual</span>
-                    </a>
+                    @if($user->role === 'pengguna')
+                        <a
+                            href="{{ route('pengajuan.form') }}"
+                            class="min-h-[37px] inline-flex items-center justify-center gap-2 rounded-lg bg-[#781d40] text-white px-3 py-2 text-[11px] md:text-xs font-bold hover:bg-[#5e1531] transition"
+                        >
+                            <svg
+                                class="w-4 h-4"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <path d="M3 10h18"/>
+                                <path d="M5 10V20h14V10"/>
+                                <path d="M3 10 5 4h14l2 6"/>
+                                <path d="M9 20v-6h6v6"/>
+                            </svg>
+
+                            <span>Daftar sebagai Penjual</span>
+                        </a>
+                    @endif
 
                     <form method="POST" action="{{ route('logout') }}" class="w-full">
                         @csrf
@@ -160,14 +182,31 @@
                            class="w-full h-[42px] rounded-lg border border-[#eeeae5] bg-white pl-10 pr-4 text-[12px] md:text-[13px] text-[#35101f] placeholder:text-[#a29aa0] focus:ring-2 focus:ring-[#781d40]/20 focus:border-[#781d40] focus:outline-none">
                 </div>
 
-                <select id="filter-waktu"
-                        class="w-full sm:w-[175px] h-[42px] rounded-lg border border-[#eeeae5] bg-white px-3 text-[12px] md:text-[13px] text-[#51494a] focus:ring-2 focus:ring-[#781d40]/20 focus:border-[#781d40] focus:outline-none">
-                    <option value="semua">Semua Waktu</option>
-                    <option value="7">7 Hari Terakhir</option>
-                    <option value="30">30 Hari Terakhir</option>
-                    <option value="90">90 Hari Terakhir</option>
-                    <option value="365">1 Tahun Terakhir</option>
-                </select>
+
+                <div class="relative w-full sm:w-[175px] shrink-0">
+                    <select
+                        id="filter-waktu"
+                        class="w-full h-[42px] appearance-none rounded-lg border border-[#eeeae5] bg-white pl-3 pr-10 text-[12px] md:text-[13px] text-[#51494a] focus:ring-2 focus:ring-[#781d40]/20 focus:border-[#781d40] focus:outline-none"
+                    >
+                        <option value="semua">Semua Waktu</option>
+                        <option value="7">7 Hari Terakhir</option>
+                        <option value="30">30 Hari Terakhir</option>
+                        <option value="90">90 Hari Terakhir</option>
+                        <option value="365">1 Tahun Terakhir</option>
+                    </select>
+
+                    <svg
+                        class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#796e70]"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <path d="m6 9 6 6 6-6"/>
+                    </svg>
+                </div>
 
                 <button type="button" id="reset-filter"
                         class="inline-flex items-center justify-center gap-1.5 h-[42px] px-4 rounded-lg border border-[#eeeae5] text-[12px] font-semibold text-[#51494a] hover:bg-[#f4f3ee] transition">

@@ -236,7 +236,7 @@
 
                             <div class="flex justify-end pt-2">
                                 <button type="submit"
-                                        class="rounded-lg bg-[#781d40] text-white px-6 py-3 text-sm font-bold hover:bg-[#5e1531] transition">
+                                        class="rounded-lg bg-[#781d40] text-white px-6 py-3 text-xs font-bold hover:bg-[#5e1531] transition">
                                     Perbarui Kata Sandi
                                 </button>
                             </div>
@@ -285,10 +285,6 @@
                                     'judul' => 'Promo & Rekomendasi Kampus',
                                     'deskripsi' => 'Informasi promo dan rekomendasi barang.',
                                 ],
-                                'whatsapp' => [
-                                    'judul' => 'Sinkronisasi WhatsApp',
-                                    'deskripsi' => 'Preferensi komunikasi melalui WhatsApp.',
-                                ],
                             ];
                         @endphp
 
@@ -316,7 +312,7 @@
 
                         <div class="flex justify-end border-t border-[#eeeae5] pt-4 mt-4">
                             <button type="submit"
-                                    class="rounded-lg bg-[#781d40] text-white px-6 py-3 text-sm font-bold hover:bg-[#5e1531]">
+                                    class="rounded-lg bg-[#781d40] text-white px-6 py-3 text-xs font-bold hover:bg-[#5e1531]">
                                 Simpan Preferensi
                             </button>
                         </div>
@@ -393,187 +389,212 @@
                                     Jangkauan Visibilitas Lapak
                                 </label>
 
-                                <select name="jangkauan_lapak"
+                                <div class="relative">
+                                    <select
+                                        name="jangkauan_lapak"
                                         required
-                                        class="w-full rounded-lg bg-[#f4f3ee] border-0 px-4 py-3 text-sm focus:ring-2 focus:ring-[#781d40]">
+                                        class="w-full appearance-none rounded-lg bg-[#f4f3ee] border-0 px-4 py-3 pr-10 text-sm focus:ring-2 focus:ring-[#781d40]"
+                                    >
+                                        <option
+                                            value="kampus"
+                                            @selected(($privasi['jangkauan_lapak'] ?? 'kampus') === 'kampus')
+                                        >
+                                            Area Kampus
+                                        </option>
 
-                                    <option value="kampus" @selected(($privasi['jangkauan_lapak'] ?? 'kampus') === 'kampus')>
-                                        Area Kampus
-                                    </option>
+                                        <option
+                                            value="kota"
+                                            @selected(($privasi['jangkauan_lapak'] ?? '') === 'kota')
+                                        >
+                                            Malang Raya
+                                        </option>
 
-                                    <option value="kota" @selected(($privasi['jangkauan_lapak'] ?? '') === 'kota')>
-                                        Malang Raya
-                                    </option>
+                                        <option
+                                            value="semua"
+                                            @selected(($privasi['jangkauan_lapak'] ?? '') === 'semua')
+                                        >
+                                            Semua Pengguna
+                                        </option>
+                                    </select>
 
-                                    <option value="semua" @selected(($privasi['jangkauan_lapak'] ?? '') === 'semua')>
-                                        Semua Pengguna
-                                    </option>
-                                </select>
+                                    {{-- IKON PANAH DROPDOWN --}}
+                                    <svg
+                                        class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#796e70]"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="1.7"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    >
+                                        <path d="m7 10 5 5 5-5"/>
+                                    </svg>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="flex justify-end border-t border-[#eeeae5] pt-4 mt-5">
-                            <button type="submit"
-                                    class="rounded-lg bg-[#781d40] text-white px-6 py-3 text-sm font-bold hover:bg-[#5e1531]">
-                                Simpan Pengaturan Privasi
-                            </button>
-                        </div>
-                    </form>
-                </section>
+                                                    <div class="flex justify-end border-t border-[#eeeae5] pt-4 mt-5">
+                                                        <button type="submit"
+                                                                class="rounded-lg bg-[#781d40] text-white px-6 py-3 text-xs font-bold hover:bg-[#5e1531]">
+                                                            Simpan Pengaturan Privasi
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </section>
 
-            </div>
+                                        </div>
 
-            {{-- KOLOM KANAN --}}
-            <aside class="space-y-5">
+                                        {{-- KOLOM KANAN --}}
+                                        <aside class="space-y-5">
 
-                {{-- SSO --}}
-                <section class="bg-white rounded-xl border border-[#eeeae5] p-5 shadow-sm">
-                    <div class="flex items-center gap-3 border-b border-[#eeeae5] pb-4 mb-4">
-                        <div class="w-10 h-10 rounded-lg bg-[#e8eef8] text-[#315c9c] grid place-items-center">
-                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M3 21h18"/>
-                                <path d="M5 21V8l7-5 7 5v13"/>
-                                <path d="M9 21v-5h6v5"/>
-                                <path d="M9 10h.01M15 10h.01"/>
-                            </svg>
-                        </div>
+                                            {{-- SSO --}}
+                                            <section class="bg-white rounded-xl border border-[#eeeae5] p-5 shadow-sm">
+                                                <div class="flex items-center gap-3 border-b border-[#eeeae5] pb-4 mb-4">
+                                                    <div class="w-10 h-10 rounded-lg bg-[#e8eef8] text-[#315c9c] grid place-items-center">
+                                                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path d="M3 21h18"/>
+                                                            <path d="M5 21V8l7-5 7 5v13"/>
+                                                            <path d="M9 21v-5h6v5"/>
+                                                            <path d="M9 10h.01M15 10h.01"/>
+                                                        </svg>
+                                                    </div>
 
-                        <div>
-                            <h3 class="font-extrabold text-sm text-[#35101f]">
-                                Autentikasi SSO Brawijaya
-                            </h3>
-                            <p class="text-xs text-[#796e70] mt-1">
-                                Integrasi akun universitas
-                            </p>
-                        </div>
-                    </div>
+                                                    <div>
+                                                        <h3 class="font-extrabold text-sm text-[#35101f]">
+                                                            Autentikasi SSO Brawijaya
+                                                        </h3>
+                                                        <p class="text-xs text-[#796e70] mt-1">
+                                                            Integrasi akun universitas
+                                                        </p>
+                                                    </div>
+                                                </div>
 
-                    <div class="rounded-lg bg-[#f4f3ee] p-4">
-                        <div class="flex items-center gap-2 text-amber-700 text-xs font-bold">
-                            <span>●</span> Belum terintegrasi
-                        </div>
+                                                <div class="rounded-lg bg-[#f4f3ee] p-4">
+                                                    <div class="flex items-center gap-2 text-amber-700 text-xs font-bold">
+                                                        <span>●</span> Belum terintegrasi
+                                                    </div>
 
-                        <p class="text-xs text-[#796e70] mt-2 leading-relaxed">
-                            Login SSO Universitas Brawijaya belum tersedia pada aplikasi ini.
-                            Akun kamu saat ini menggunakan autentikasi UB Mager.
-                        </p>
-                    </div>
-                </section>
+                                                    <p class="text-xs text-[#796e70] mt-2 leading-relaxed">
+                                                        Login SSO Universitas Brawijaya belum tersedia pada aplikasi ini.
+                                                        Akun kamu saat ini menggunakan autentikasi UB Mager.
+                                                    </p>
+                                                </div>
+                                            </section>
 
-                {{-- SESI AKTIF --}}
-                <section class="bg-white rounded-xl border border-[#eeeae5] p-5 shadow-sm">
-                    <div class="flex items-center gap-3 border-b border-[#eeeae5] pb-4 mb-4">
-                        <div class="w-10 h-10 rounded-lg bg-[#e8eef8] text-[#315c9c] grid place-items-center">
-                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="5" width="18" height="13" rx="2"/>
-                                <path d="M8 21h8"/>
-                                <path d="M12 18v3"/>
-                                <circle cx="12" cy="11.5" r="2"/>
-                            </svg>
-                        </div>
+                                            {{-- SESI AKTIF --}}
+                                            <section class="bg-white rounded-xl border border-[#eeeae5] p-5 shadow-sm">
+                                                <div class="flex items-center gap-3 border-b border-[#eeeae5] pb-4 mb-4">
+                                                    <div class="w-10 h-10 rounded-lg bg-[#e8eef8] text-[#315c9c] grid place-items-center">
+                                                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                                            <rect x="3" y="5" width="18" height="13" rx="2"/>
+                                                            <path d="M8 21h8"/>
+                                                            <path d="M12 18v3"/>
+                                                            <circle cx="12" cy="11.5" r="2"/>
+                                                        </svg>
+                                                    </div>
 
-                        <div>
-                            <h3 class="font-extrabold text-sm text-[#35101f]">
-                                Sesi & Perangkat Aktif
-                            </h3>
-                            <p class="text-xs text-[#796e70] mt-1">
-                                Informasi keamanan perangkat
-                            </p>
-                        </div>
-                    </div>
+                                                    <div>
+                                                        <h3 class="font-extrabold text-sm text-[#35101f]">
+                                                            Sesi & Perangkat Aktif
+                                                        </h3>
+                                                        <p class="text-xs text-[#796e70] mt-1">
+                                                            Informasi keamanan perangkat
+                                                        </p>
+                                                    </div>
+                                                </div>
 
-                    <div class="rounded-lg bg-[#f4f3ee] p-4">
-                        <p class="text-sm font-bold text-[#51494a]">
-                            Pengelolaan perangkat belum tersedia
-                        </p>
+                                                <div class="rounded-lg bg-[#f4f3ee] p-4">
+                                                    <p class="text-sm font-bold text-[#51494a]">
+                                                        Pengelolaan perangkat belum tersedia
+                                                    </p>
 
-                        <p class="text-xs text-[#796e70] mt-2 leading-relaxed">
-                            Aplikasi belum memiliki pencatatan sesi dan perangkat aktif.
-                            Untuk keamanan, selalu logout setelah menggunakan perangkat bersama.
-                        </p>
-                    </div>
+                                                    <p class="text-xs text-[#796e70] mt-2 leading-relaxed">
+                                                        Aplikasi belum memiliki pencatatan sesi dan perangkat aktif.
+                                                        Untuk keamanan, selalu logout setelah menggunakan perangkat bersama.
+                                                    </p>
+                                                </div>
 
-                    <form method="POST" action="{{ route('logout') }}" class="mt-4">
-                        @csrf
+                                                <form method="POST" action="{{ route('logout') }}" class="mt-4">
+                                                    @csrf
 
-                        <button type="submit"
-                                class="w-full rounded-lg border border-[#781d40] text-[#781d40] px-4 py-3 text-xs font-bold hover:bg-[#f8edf1]">
-                            Logout dari Perangkat Ini
-                        </button>
-                    </form>
-                </section>
+                                                    <button type="submit"
+                                                            class="w-full rounded-lg border border-[#781d40] text-[#781d40] px-4 py-3 text-xs font-bold hover:bg-[#f8edf1]">
+                                                        Logout dari Perangkat Ini
+                                                    </button>
+                                                </form>
+                                            </section>
 
-                {{-- ZONA TINDAKAN AKUN --}}
-                <section class="bg-white rounded-xl border border-red-100 p-5 shadow-sm">
-                    <div class="flex items-center gap-3 border-b border-red-100 pb-4 mb-4">
-                        <div class="w-10 h-10 rounded-lg bg-red-50 text-red-600 grid place-items-center">
-                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M12 3 2.8 20h18.4L12 3Z"/>
-                                <path d="M12 9v5"/>
-                                <path d="M12 17h.01"/>
-                            </svg>
-                        </div>
+                                            {{-- ZONA TINDAKAN AKUN --}}
+                                            <section class="bg-white rounded-xl border border-red-100 p-5 shadow-sm">
+                                                <div class="flex items-center gap-3 border-b border-red-100 pb-4 mb-4">
+                                                    <div class="w-10 h-10 rounded-lg bg-red-50 text-red-600 grid place-items-center">
+                                                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path d="M12 3 2.8 20h18.4L12 3Z"/>
+                                                            <path d="M12 9v5"/>
+                                                            <path d="M12 17h.01"/>
+                                                        </svg>
+                                                    </div>
 
-                        <div>
-                            <h3 class="font-extrabold text-sm text-red-800">
-                                Zona Tindakan Akun
-                            </h3>
-                            <p class="text-xs text-[#796e70] mt-1">
-                                Tindakan penting terkait akun
-                            </p>
-                        </div>
-                    </div>
+                                                    <div>
+                                                        <h3 class="font-extrabold text-sm text-red-800">
+                                                            Zona Tindakan Akun
+                                                        </h3>
+                                                        <p class="text-xs text-[#796e70] mt-1">
+                                                            Tindakan penting terkait akun
+                                                        </p>
+                                                    </div>
+                                                </div>
 
-                    <div class="space-y-4">
-                        <div>
-                            <p class="text-sm font-bold text-[#51494a]">
-                                Nonaktifkan Akun Sementara
-                            </p>
+                                                <div class="space-y-4">
+                                                    <div>
+                                                        <p class="text-sm font-bold text-[#51494a]">
+                                                            Nonaktifkan Akun Sementara
+                                                        </p>
 
-                            <p class="text-xs text-[#796e70] mt-1 leading-relaxed">
-                                Fitur penonaktifan akun sementara belum tersedia.
-                                Jangan gunakan tindakan ini sebelum mekanisme pemulihan akun disiapkan.
-                            </p>
+                                                        <p class="text-xs text-[#796e70] mt-1 leading-relaxed">
+                                                            Fitur penonaktifan akun sementara belum tersedia.
+                                                            Jangan gunakan tindakan ini sebelum mekanisme pemulihan akun disiapkan.
+                                                        </p>
 
-                            <button type="button"
-                                    disabled
-                                    class="w-full mt-3 rounded-lg bg-gray-100 text-gray-400 px-4 py-3 text-xs font-bold cursor-not-allowed">
-                                Nonaktifkan Akun
-                            </button>
-                        </div>
+                                                        <button type="button"
+                                                                disabled
+                                                                class="w-full mt-3 rounded-lg bg-gray-100 text-gray-400 px-4 py-3 text-xs font-bold cursor-not-allowed">
+                                                            Nonaktifkan Akun
+                                                        </button>
+                                                    </div>
 
-                        <div class="border-t border-red-100 pt-4">
-                            <p class="text-sm font-bold text-red-700">
-                                Hapus Akun Permanen
-                            </p>
+                                                    <div class="border-t border-red-100 pt-4">
+                                                        <p class="text-sm font-bold text-red-700">
+                                                            Hapus Akun Permanen
+                                                        </p>
 
-                            <p class="text-xs text-[#796e70] mt-1 leading-relaxed">
-                                Penghapusan akun belum tersedia. Tindakan ini memerlukan prosedur
-                                konfirmasi dan pemeriksaan transaksi terlebih dahulu.
-                            </p>
+                                                        <p class="text-xs text-[#796e70] mt-1 leading-relaxed">
+                                                            Penghapusan akun belum tersedia. Tindakan ini memerlukan prosedur
+                                                            konfirmasi dan pemeriksaan transaksi terlebih dahulu.
+                                                        </p>
 
-                            <button type="button"
-                                    disabled
-                                    class="w-full mt-3 rounded-lg border border-red-200 text-red-300 px-4 py-3 text-xs font-bold cursor-not-allowed">
-                                Hapus Akun
-                            </button>
-                        </div>
-                    </div>
-                </section>
+                                                        <button type="button"
+                                                                disabled
+                                                                class="w-full mt-3 rounded-lg border border-red-200 text-red-300 px-4 py-3 text-xs font-bold cursor-not-allowed">
+                                                            Hapus Akun
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </section>
 
-                {{-- BANTUAN --}}
-                <section class="rounded-xl bg-[#781d40] text-white p-5 shadow-sm">
-                    <h3 class="font-extrabold text-sm">Butuh Bantuan?</h3>
+                                            {{-- BANTUAN --}}
+                                            <section class="rounded-xl bg-[#781d40] text-white p-5 shadow-sm">
+                                                <h3 class="font-extrabold text-sm">Butuh Bantuan?</h3>
 
-                    <p class="text-xs text-white/80 mt-2 leading-relaxed">
-                        Jika mengalami masalah keamanan akun, hubungi pengelola UB Mager.
-                    </p>
-                </section>
+                                                <p class="text-xs text-white/80 mt-2 leading-relaxed">
+                                                    Jika mengalami masalah keamanan akun, hubungi pengelola UB Mager.
+                                                </p>
+                                            </section>
 
-            </aside>
-        </div>
-    </div>
-</div>
+                                        </aside>
+                                    </div>
+                                </div>
+                            </div>
 
 <script>
 function togglePassword(id, button) {

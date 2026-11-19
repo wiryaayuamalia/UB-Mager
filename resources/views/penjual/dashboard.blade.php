@@ -22,12 +22,13 @@
         </div>
 
         {{-- TOMBOL AKSI DASHBOARD --}}
-        <div class="flex gap-2">
+        <div class="flex flex-wrap gap-2">
+
             <a
-                href="{{ route('penjual.katalog.export') }}"
+                href="{{ route('penjual.pesanan') }}"
                 class="rounded-full bg-white border px-4 py-2.5 text-sm font-bold"
             >
-                Ekspor CSV
+                Pesanan Masuk
             </a>
 
             <a
@@ -38,11 +39,19 @@
             </a>
 
             <a
+                href="{{ route('penjual.katalog.export') }}"
+                class="rounded-full bg-white border px-4 py-2.5 text-sm font-bold"
+            >
+                Ekspor CSV
+            </a>
+
+            <a
                 href="{{ route('penjual.katalog.create') }}"
                 class="rounded-full bg-maroon text-white px-4 py-2.5 text-sm font-bold"
             >
-                Barang Baru
+                + Barang Baru
             </a>
+
         </div>
     </div>
 

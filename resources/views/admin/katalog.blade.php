@@ -48,11 +48,7 @@
                     TOTAL KATALOG AKTIF
                 </p>
 
-                <div class="w-10 h-10 rounded-xl bg-[#e1ecff] flex items-center justify-center text-[#496887] shrink-0">
-                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="4" y="4" width="16" height="16" rx="2"/>
-                        <path d="M8 8h8M9 12h6"/>
-                    </svg>
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center text-[#496887] shrink-0">
                 </div>
             </div>
 
@@ -73,11 +69,7 @@
                     MENUNGGU PEMERIKSAAN
                 </p>
 
-                <div class="w-10 h-10 rounded-xl bg-[#ffe8e6] flex items-center justify-center text-red-600 shrink-0">
-                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 3 2.8 20h18.4L12 3Z"/>
-                        <path d="M12 9v5m0 3h.01"/>
-                    </svg>
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center text-red-600 shrink-0">
                 </div>
             </div>
 
@@ -101,12 +93,7 @@
                     KATEGORI AKTIF
                 </p>
 
-                <div class="w-10 h-10 rounded-xl bg-[#f8f4d8] flex items-center justify-center text-[#89721d] shrink-0">
-                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="m12 3 4 7H8l4-7Z"/>
-                        <circle cx="7" cy="17" r="3"/>
-                        <circle cx="17" cy="17" r="3"/>
-                    </svg>
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center text-[#89721d] shrink-0">
                 </div>
             </div>
 
@@ -127,11 +114,7 @@
                     RENTANG HARGA WAJAR
                 </p>
 
-                <div class="w-10 h-10 rounded-xl bg-[#fce9f0] flex items-center justify-center text-[#852047] shrink-0">
-                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="5" width="18" height="14" rx="2"/>
-                        <path d="M8 10h.01M16 14h.01M12 8v8m2-6h-3a1.5 1.5 0 0 0 0 3h2a1.5 1.5 0 0 1 0 3H10"/>
-                    </svg>
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center text-[#852047] shrink-0">
                 </div>
             </div>
 
@@ -346,7 +329,6 @@
         <section class="bg-white border border-[#eeeae3] rounded-xl shadow-sm overflow-hidden">
             <div class="p-4 border-b border-[#eeeae3]">
                 <h2 class="text-base font-extrabold text-[#351522] flex items-center gap-2">
-                    <span class="w-2 h-5 rounded-sm bg-[#94721d]"></span>
                     Tabel Kelola Kategori
                 </h2>
                 <p class="text-[10px] text-gray-500 mt-1">
@@ -415,7 +397,6 @@
         <section class="bg-white border border-[#eeeae3] rounded-xl shadow-sm overflow-hidden">
             <div class="p-4 border-b border-[#eeeae3]">
                 <h2 class="text-base font-extrabold text-[#351522] flex items-center gap-2">
-                    <span class="w-2 h-5 rounded-sm bg-[#94721d]"></span>
                     Tabel Rentang Harga Wajar
                 </h2>
                 <p class="text-[10px] text-gray-500 mt-1">
@@ -490,29 +471,6 @@
         </section>
 
     </div>
-
-    {{-- INFORMASI --}}
-    <div class="mt-4 bg-[#f0efe8] rounded-xl p-3 flex flex-wrap items-center gap-3">
-        <div class="w-8 h-8 rounded-lg bg-[#ffe69a] text-[#725817] flex items-center justify-center shrink-0">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 3 4 6v5c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6l-8-3Z"/>
-                <path d="m9 12 2 2 4-4"/>
-            </svg>
-        </div>
-
-        <div class="flex-1 min-w-0">
-            <p class="text-xs font-extrabold text-[#351522]">
-                Maklumat Satgas Usaha Mahasiswa UB
-            </p>
-            <p class="text-[10px] text-gray-500">
-                Katalog dengan nilai di atas batas atas wajar otomatis dialihkan ke status verifikasi manual sebelum dapat dicari di beranda publik.
-            </p>
-        </div>
-
-        <span class="text-[10px] font-bold text-[#80651d]">
-            SK BEM 08/UB-MGR/2025
-        </span>
-    </div>
-
+    
 </div>
 @endsection

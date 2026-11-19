@@ -96,8 +96,22 @@ class AuthController extends Controller
         session()->forget('otp_user');
         Auth::login($user);
         request()->session()->regenerate();
-        return redirect()->route('profil.edit')->with('ok', 'Akun terverifikasi. Lengkapi profil Anda.');
-    }
+        if ($user->role === 'admin') {
+            return redirect()
+                ->route('admin.pengajuan.index')
+                ->with('ok', 'Akun berhasil diverifikasi.');
+        }
+
+        if ($user->role === 'penjual') {
+            return redirect()
+                ->route('penjual.dashboard')
+                ->with('ok', 'Akun berhasil diverifikasi.');
+        }
+
+        return redirect()
+            ->route('profil.edit')
+            ->with('ok', 'Akun terverifikasi. Lengkapi profil Anda.');
+     }
 
     public function resendOtp()
     {
@@ -134,10 +148,12 @@ class AuthController extends Controller
         $r->session()->regenerate();
 
         $tujuan = match ($user->role) {
-            'admin' => route('admin.pengajuan.index'),
-            'penjual' => route('penjual.dashboard'),
-            default => route('katalog.index'),
+            'admin' => 'admin.pengajuan.index',
+            'penjual' => 'penjual.dashboard',
+            default => 'katalog.index',
         };
+
+        return redirect()->route($tujuan);
 
         return redirect()->intended($tujuan);
     }

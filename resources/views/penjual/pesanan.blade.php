@@ -22,9 +22,9 @@
 
         <a
             href="{{ route('penjual.dashboard') }}"
-            class="rounded-full bg-white border px-4 py-2 h-fit text-sm font-bold"
+            class="rounded-full bg-white border px-4 py-2 h-fit text-sm font-bold hover:bg-gray-50 transition"
         >
-            ← Inventaris
+            <span>← Kembali ke Inventaris</span>
         </a>
     </div>
 
