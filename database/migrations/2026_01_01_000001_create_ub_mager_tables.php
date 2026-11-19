@@ -186,8 +186,8 @@ return new class extends Migration
             $t->boolean('sudah_dibaca')->default(false);
         });
 
-        // CHECK constraint (MySQL 8+ / MariaDB 10.2+)
-        if (in_array(DB::getDriverName(), ['mysql', 'mariadb'])) {
+        // CHECK constraints for MySQL, MariaDB, and PostgreSQL.
+        if (in_array(DB::getDriverName(), ['mysql', 'mariadb', 'pgsql'])) {
             DB::statement('ALTER TABLE otp ADD CONSTRAINT chk_otp_percobaan CHECK (jumlah_percobaan <= 3)');
             DB::statement('ALTER TABLE ulasan ADD CONSTRAINT chk_ulasan_rating CHECK (rating BETWEEN 1 AND 5)');
             DB::statement('ALTER TABLE katalog ADD CONSTRAINT chk_katalog_harga CHECK (harga > 0)');
