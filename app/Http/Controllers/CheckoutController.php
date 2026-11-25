@@ -70,10 +70,20 @@ class CheckoutController extends Controller
                     'status_pembayaran' => 'menunggu',
                 ]);
 
+                // Notifikasi untuk penjual
                 Notifikasi::create([
                     'id_pengguna' => $barang->penjual->id_pengguna,
                     'judul' => 'Pesanan baru',
                     'isi' => 'Ada pesanan baru: ' . $barang->nama_barang,
+                    'jenis' => 'pesanan',
+                    'waktu' => now(),
+                ]);
+
+                // Notifikasi untuk pembeli
+                Notifikasi::create([
+                    'id_pengguna' => $r->user()->id_pengguna,
+                    'judul' => 'Pesanan berhasil dibuat',
+                    'isi' => 'Pesanan ' . $barang->nama_barang . ' berhasil dibuat. Silakan cek status pesanan kamu.',
                     'jenis' => 'pesanan',
                     'waktu' => now(),
                 ]);
