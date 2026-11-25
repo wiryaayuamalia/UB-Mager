@@ -146,10 +146,7 @@
                     required
                     class="mt-0.5 accent-[#761d40]">
                 <span>
-                    Saya menyetujui
-                    <a href="#" class="font-bold underline text-[#5c102d]">
-                        Syarat & Ketentuan Transaksi Preloved
-                    </a>
+                    Saya menyetujui Syarat & Ketentuan Transaksi Preloved
                     kampus Malang–Batu, larangan barang terlarang, serta kesepakatan
                     titik temu (COD) publik yang aman.
                 </span>
