@@ -165,17 +165,6 @@ return new class extends Migration
             $t->dateTime('tanggal_ulasan');
         });
 
-        Schema::create('komplain', function (Blueprint $t) {
-            $t->id('id_komplain');
-            $t->foreignId('id_pesanan')->constrained('pesanan', 'id_pesanan');
-            $t->foreignId('id_admin')->nullable()->constrained('admin', 'id_admin');
-            $t->text('deskripsi');
-            $t->string('bukti_foto');
-            $t->enum('status_komplain', ['diajukan', 'diproses', 'selesai'])->default('diajukan');
-            $t->enum('keputusan', ['hold', 'refund', 'dicairkan ke penjual'])->nullable();
-            $t->dateTime('tanggal_komplain');
-        });
-
         Schema::create('pesan', function (Blueprint $t) {
             $t->id('id_pesan');
             $t->foreignId('id_katalog')->constrained('katalog', 'id_katalog');
